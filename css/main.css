@@ -24,6 +24,7 @@ ul {
 	border: 3px solid #53bdd0;
 	border-radius: 10px;
 	overflow: hidden;
+	z-index: 1;
 }
 
 	.game__radar {
@@ -33,13 +34,13 @@ ul {
 		border: 3px solid #53bdd0;
 		border-radius: 5px;
 		overflow: hidden;
+		background: url('../assets/img/drone-bg.png') 13px 13px no-repeat;
 	}
 
 		.game__radar--sub {
 			position: absolute;
 			bottom: 5px;
 			right: 5px;
-			background: url('../assets/img/drone-bg.png') 13px 13px no-repeat;
 		}
 
 		.game__radar--drone {
@@ -112,6 +113,25 @@ ul {
 			margin-right: 5px;
 		}
 
+		.game__action-panel {
+			position: absolute;
+			top: 63px;
+			width: 552px;
+			transition: left 200ms ease-out;
+		}
+
+			.game__action-panel.is-active {
+				left: 5px;
+			}
+
+			.game__action-panel--sub {
+				left: -552px;
+			}
+
+			.game__action-panel--drone {
+				left: 562px;
+			}
+
 .btn {
 	display: inline-block;
 	padding: 10px;
@@ -123,7 +143,18 @@ ul {
 	font-size: 20px;
 }
 
-	.btn:hover {
+	.btn:hover, .btn.is-active {
 		color: #090909;
 		background: #53bdd0;
 	}
+
+	.btn.is-disabled {
+		border-color: #4A4A4A;
+		color: #525252;
+		background-color: #242424;
+		cursor: default;
+	}
+
+.dock-help {
+	display: none;
+}

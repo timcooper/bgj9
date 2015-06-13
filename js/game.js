@@ -3,10 +3,11 @@ var _ = require('lodash'),
     states = {
       boot: require('./states/boot.js'),
       preloader: require('./states/preloader.js'),
-      menu: require('./states/menu.js'),
-      game: require('./states/game.js'),
-      win: require('./states/win.js'),
-    };
+      docked: require('./states/docked.js'),
+      game: require('./states/game.js')
+    },
+    UI = require('./UI/init.js'),
+    level;
 
 _.each(states, function(state, key) {
   game.state.add(key, state);

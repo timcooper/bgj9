@@ -1,11 +1,19 @@
-var game = {};
+var game = {},
+UI = require("../UI/init.js");
 
 game.create = function() {
+	var music = this.game.add.audio("tenseLoop");
+	//music.play();
+
 	this.game.world.setBounds(0, 0, 960, 768);
 	this.game.renderer.renderSession.roundPixels = true;
 
-	this.cave = new (require("../components/cave.js"))(this.game);
-	this.cave.create();
+	if(typeof this.cave === "undefined") {
+		this.cave = new (require("../components/cave.js"))(this.game);
+		this.cave.create();
+	}else{
+		this.cave.renderMap();
+	}
 
 	this.player = this.game.add.sprite(this.cave.playerX, this.cave.playerY, "player");
 	this.cave.addPlayer(this.player);
@@ -20,8 +28,8 @@ game.create = function() {
 	this.game.camera.bounds = null;
 	this.game.camera.follow(this.player);
 
-	this.win = this.game.add.sprite(550, 360, "win");
-	this.game.physics.enable(this.win, Phaser.Physics.ARCADE);
+	this.dirigible = this.game.add.sprite(this.cave.playerX-40, this.cave.playerY-40, "win");
+	this.game.physics.enable(this.dirigible, Phaser.Physics.ARCADE);
 
 	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
@@ -31,7 +39,7 @@ game.create = function() {
 
 game.update = function() {
 	this.cave.update();
-	this.game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);
+	this.game.physics.arcade.overlap(this.player, this.dirigible, this.dockDrone, null, this);
 
 	this.player.body.acceleration.set(0);
 
@@ -64,8 +72,8 @@ game.update = function() {
 	}
 };
 
-game.Win = function() {
-	this.game.state.start("win");
+game.dockDrone = function() {
+	UI.dockDrone();
 };
 
 module.exports = game;

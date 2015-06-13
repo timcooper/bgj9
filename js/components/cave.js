@@ -2,6 +2,8 @@ var _ = require("lodash");
 
 cave = function(game) {
 	this.game = game;
+	this.carved = false;
+	this.map = [];
 };
 
 cave.prototype.create = function() {
@@ -78,6 +80,8 @@ cave.prototype.makeMap = function() {
 };
 
 cave.prototype.renderMap = function() {
+	this.floorTiles = [];
+	this.wallTiles = [];
 	for(var i = 0; i < this.map.length; i++) {
 		if(this.map[i].image == "floor") {
 			this.floorTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
