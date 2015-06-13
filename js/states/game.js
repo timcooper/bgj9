@@ -6,8 +6,8 @@ game.create = function() {
 	var bg = this.game.add.tileSprite(0, 0, 320, 240, 'droneBG');
 	bg.fixedToCamera = true;
 
-	this.game.camera.x = -90; //70
-	this.game.camera.y = 20; //140
+	this.game.camera.x = 70 - 160;
+	this.game.camera.y = 140 - 120;
 
 	this.game.add.tileSprite(0, 0, 640, 480, 'droneMap');
 
@@ -16,7 +16,7 @@ game.create = function() {
 	this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
 	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
-	this.win = this.game.add.sprite(256, 256, "win");
+	this.win = this.game.add.sprite(550, 360, "win");
 	this.game.physics.enable(this.win, Phaser.Physics.ARCADE);
 
 	this.cursors = this.game.input.keyboard.createCursorKeys();
