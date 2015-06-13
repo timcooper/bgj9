@@ -23,14 +23,14 @@ cave.prototype.update = function() {
 	for (var i = 0; i < this.wallTiles.length; i++) {
 		for (var j = 0; j < this.floorTiles.length; j++) {
 			if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
-				this.wallTiles.splice(i, 1);
+				tile = this.wallTiles.splice(i, 1);
+				tile[0].body = null;
+				tile[0].destroy();
 			}
 		};
 	};
 
-	for(var i = 0; i < this.wallTiles.length; i++) {
-		this.game.physics.arcade.collide(this.wallTiles[i], this.player, this.collision.bind(this));
-	}
+	this.game.physics.arcade.collide(this.wallTiles, this.player);
 };
 
 cave.prototype.collision = function(obj1, obj2) {
