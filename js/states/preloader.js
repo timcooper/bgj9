@@ -14,6 +14,9 @@ preloader.preload = function() {
 
 	this.game.load.audio("mainLoop", ["assets/audio/bgj9 exploration (draft 1) (loop).mp3"]);
 	this.game.load.audio("tenseLoop", ["assets/audio/bgj9 tense (draft 1) (loop).mp3"]);
+
+	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3"]);
+	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3"]);
 };
 
 preloader.create = function() {

@@ -68,6 +68,7 @@ game.update = function() {
 
 game.dockDrone = function() {
 	this.music.stop();
+	this.game.sound.play("dockDrone");
 	UI.dockDrone();
 };
 

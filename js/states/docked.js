@@ -14,6 +14,7 @@ docked.create = function() {
 
 docked.start = function() {
 	this.music.stop();
+	this.game.sound.play("deployDrone");
 	this.game.state.start("game");
 };
 
