@@ -3,7 +3,7 @@ UI = require("../UI/init.js");
 
 game.create = function() {
 	var music = this.game.add.audio("tenseLoop");
-	//music.play();
+	music.play();
 
 	this.game.world.setBounds(0, 0, 960, 768);
 	this.game.renderer.renderSession.roundPixels = true;

@@ -3,7 +3,7 @@ var docked = {},
 
 docked.create = function() {
 	this.music = this.game.add.audio("mainLoop");
-	//this.music.play();
+	this.music.play();
 
 	var nameLabel = this.game.add.text(80, 80, "DRONE IN CARGO", {
 			font: "20px Courier",
