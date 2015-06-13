@@ -1,5 +1,5 @@
 var _ = require('lodash'),
-	game = new Phaser.Game(320, 256, Phaser.AUTO, 'gameDiv'),
+	game = new Phaser.Game(320, 256, Phaser.AUTO, 'game'),
     states = {
       boot: require('./states/boot.js'),
       preloader: require('./states/preloader.js'),

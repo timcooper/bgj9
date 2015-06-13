@@ -1,0 +1,129 @@
+* {
+	/*box-sizing: border-box;*/
+}
+
+body {
+	background: #090909;
+	color: #53bdd0;
+	font-family: Courier, monospace;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.game {
+	position: relative;
+	width: 1200px;
+	height: 581px;
+	margin: 0 auto;
+	border: 3px solid #53bdd0;
+	border-radius: 10px;
+	overflow: hidden;
+}
+
+	.game__radar {
+		width: 320px;
+		height: 256px;
+		padding: 10px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+		overflow: hidden;
+	}
+
+		.game__radar--sub {
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+			background: url('/assets/img/drone-bg.png') 13px 13px no-repeat;
+		}
+
+		.game__radar--drone {
+			position: absolute;
+			bottom: 294px;
+			right: 5px;
+		}
+
+	.game__update-list {
+		margin: 0;
+		position: absolute;
+		left: 5px;
+		bottom: 5px;
+		width: 250px;
+		height: 555px;
+		padding: 5px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+	}
+
+		.game__update-list ul {
+			height: 555px;
+			padding-right: 5px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		.game__update-list ul::-webkit-scrollbar {
+		      width: 5px;
+		}
+
+		.game__update-list ul::-webkit-scrollbar-track {
+		      background-color: #090909;
+		} /* the new scrollbar will have a flat appearance with the set background color */
+
+		.game__update-list ul::-webkit-scrollbar-thumb {
+		      background-color: #53bdd0;
+		} /* this will style the thumb, ignoring the track */
+
+		.game__update-list ul::-webkit-scrollbar-button {
+			display: none;
+		      background-color: #53bdd0;
+		} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+
+		.game__update-list ul::-webkit-scrollbar-corner {
+		      background-color: black;
+		} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+		.game__update-item {
+			border: 3px solid #53bdd0;
+			border-radius: 5px;
+			padding: 5px;
+			margin-bottom: 5px;
+		}
+
+	.game__actions {
+		position: absolute;
+		left: 276px;
+		top: 5px;
+		padding: 5px;
+		width: 552px;
+		height: 555px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+		overflow: hidden;
+	}
+
+		.main-actions li {
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+.btn {
+	display: inline-block;
+	padding: 10px;
+	border: 3px solid #53bdd0;
+	border-radius: 5px;
+	overflow: hidden;
+	color: #53bdd0;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+	.btn:hover {
+		color: #090909;
+		background: #53bdd0;
+	}

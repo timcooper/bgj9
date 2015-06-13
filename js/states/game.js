@@ -4,16 +4,6 @@ game.create = function() {
 	this.game.world.setBounds(0, 0, 960, 768);
 	this.game.renderer.renderSession.roundPixels = true;
 
-	//this.game.camera.x = 70 - 160;
-	//this.game.camera.y = 140 - 120;
-
-	//this.game.add.tileSprite(0, 0, 640, 480, 'droneMap');
-
-	//this.player = this.game.add.sprite(0, 0, "player");
-	//this.player.fixedToCamera = true;
-	//this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
-
-
 	this.cave = new (require("../components/cave.js"))(this.game);
 	this.cave.create();
 
