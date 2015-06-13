@@ -9,30 +9,24 @@ game.create = function() {
 	this.game.renderer.renderSession.roundPixels = true;
 
 	if(typeof this.cave === "undefined") {
-		this.cave = new (require("../components/cave.js"))(this.game);
+		this.cave = new (require("../entities/cave.js"))(this.game);
 		this.cave.create();
 	}else{
 		this.cave.renderMap();
 	}
 
-	this.player = this.game.add.sprite(this.cave.playerX, this.cave.playerY, "player");
-	this.cave.addPlayer(this.player);
-	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
-	this.player.body.setSize(10, 10, 0, 0);
-	this.player.body.maxVelocity.set(50);
-	this.player.body.drag.set(25);
-	this.player.body.bounce.set(0.6);
+	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
+	bg.fixedToCamera = true;
 
-	this.player.anchor.setTo(0.5, 0.5);
+	var player = new (require("../entities/drone.js"))(this.cave.playerX, this.cave.playerY, this.game);
+	this.player = player.create();
+	this.cave.addPlayer(this.player);
 
 	this.game.camera.bounds = null;
 	this.game.camera.follow(this.player);
 
 	this.dirigible = this.game.add.sprite(this.cave.playerX-40, this.cave.playerY-40, "win");
 	this.game.physics.enable(this.dirigible, Phaser.Physics.ARCADE);
-
-	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
-	bg.fixedToCamera = true;
 
 	this.keyboard = this.game.input.keyboard;
 };
