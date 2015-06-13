@@ -39,7 +39,7 @@ ul {
 			position: absolute;
 			bottom: 5px;
 			right: 5px;
-			background: url('/assets/img/drone-bg.png') 13px 13px no-repeat;
+			background: url('../assets/img/drone-bg.png') 13px 13px no-repeat;
 		}
 
 		.game__radar--drone {
