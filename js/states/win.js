@@ -1,14 +1,14 @@
 var win = {};
 
 win.create = function() {
-	var winLabel = this.game.add.text(80, 80, "YOU WON", {
-			font: "50px Arial",
+	var winLabel = this.game.add.text(80, 80, "win", {
+			font: "20px Arial",
 			fill: "#00ff00"
 		}),
-		startLabel = this.game.add.text(80, this.game.world.height-80,
+		startLabel = this.game.add.text(80, 120,
 			"press W to restart",
 			{
-				font: "25px Arial",
+				font: "16px Arial",
 				fill: "#ffffff"
 			}
 		),
@@ -18,7 +18,7 @@ win.create = function() {
 };
 
 win.start = function() {
-	this.game.state.start("menu");
+	this.game.state.start("game");
 };
 
 module.exports = win;
