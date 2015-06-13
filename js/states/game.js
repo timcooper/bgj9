@@ -21,9 +21,8 @@ game.create = function() {
 	this.cave.addPlayer(this.player);
 	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 	this.player.body.setSize(10, 10, 0, 0);
-	this.player.body.maxVelocity.x = 50;
-	this.player.body.maxVelocity.y = 50;
-	this.player.body.drag.setTo(25, 25);
+	this.player.body.maxVelocity.set(50);
+	this.player.body.drag.set(25);
 	this.player.body.bounce.set(0.6);
 
 	this.player.anchor.setTo(0.5, 0.5);
@@ -44,8 +43,7 @@ game.update = function() {
 	this.cave.update();
 	this.game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);
 
-	this.player.body.acceleration.x = 0;
-	this.player.body.acceleration.y = 0;
+	this.player.body.acceleration.set(0);
 
 	if(this.keyboard.isDown(Phaser.Keyboard.A)) {
 		if(this.player.body.velocity.x > 0) {
