@@ -1,11 +1,11 @@
 var _ = require('lodash'),
-	game = new Phaser.Game(320, 240, Phaser.AUTO, 'gameDiv'),
+	game = new Phaser.Game(320, 256, Phaser.AUTO, 'gameDiv'),
     states = {
       boot: require('./states/boot.js'),
       preloader: require('./states/preloader.js'),
       menu: require('./states/menu.js'),
       game: require('./states/game.js'),
-      win: require('./states/win.js')
+      win: require('./states/win.js'),
     };
 
 _.each(states, function(state, key) {

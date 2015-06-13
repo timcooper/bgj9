@@ -1,12 +1,160 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var _ = require("lodash");
+
+cave = function(game) {
+	this.game = game;
+};
+
+cave.prototype.create = function() {
+	this.map = [];
+	this.wallTiles = [];
+	this.floorTiles = [];
+
+	this.roomMaxSize = 4;
+	this.roomMinSize = 2;
+
+	this.maxRooms = 7;
+
+	this.makeMap();
+
+	this.renderMap();
+};
+
+cave.prototype.update = function() {
+	for (var i = 0; i < this.wallTiles.length; i++) {
+		for (var j = 0; j < this.floorTiles.length; j++) {
+			if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
+				this.wallTiles.splice(i, 1);
+			}
+		};
+	};
+
+	for(var i = 0; i < this.wallTiles.length; i++) {
+		this.game.physics.arcade.collide(this.wallTiles[i], this.player, this.collision.bind(this));
+	}
+};
+
+cave.prototype.collision = function(obj1, obj2) {
+	console.log(obj1, obj2);
+};
+
+cave.prototype.makeMap = function() {
+	for (var y = 0; y < this.game.world.height; y+=16) {
+		for (var x = 0; x < this.game.world.width; x+=16) {
+			this.map.push(new this.Tile(x, y, true, true, "wall"));
+		};
+	};
+
+	this.rooms = [];
+	this.numRooms = 0;
+
+	for(var r = 0; r < this.maxRooms; r++) {
+		w = _.random(this.roomMinSize, this.roomMaxSize) * 32;
+		h = _.random(this.roomMinSize, this.roomMaxSize) * 32;
+
+		x = _.random(1, ((this.game.world.width) / 32) - (w/32 + 1)) * 32;
+		y = _.random(1, ((this.game.world.height) / 32) - (h/32 + 1)) * 32;
+
+		this.newRoom = new this.Room(x, y, w, h);
+
+		this.createRoom(this.newRoom);
+
+		if(this.numRooms == 0) {
+			this.playerX = this.newRoom.centerCoords[0];
+			this.playerY = this.newRoom.centerCoords[1];
+		}else{
+			this.newX = this.newRoom.centerCoords[0] - 16;
+			this.newY = this.newRoom.centerCoords[1] - 16;
+
+			this.prevX = this.rooms[this.numRooms - 1].centerCoords[0] - 16;
+			this.prevY = this.rooms[this.numRooms - 1].centerCoords[1] - 16;
+
+			this.createHTunnel(this.prevX, this.newX, this.prevY);
+			this.createVTunnel(this.prevY, this.newY, this.newX);
+		}
+
+		this.rooms.push(this.newRoom);
+		this.numRooms += 1;
+	}
+};
+
+cave.prototype.renderMap = function() {
+	for(var i = 0; i < this.map.length; i++) {
+		if(this.map[i].image == "floor") {
+			this.floorTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
+			this.game.physics.enable(this.floorTile, Phaser.Physics.ARCADE);
+			this.floorTile.body.immovable = true;
+			this.floorTiles.push(this.floorTile);
+		} else if(this.map[i].image == "wall") {
+			this.wallTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
+			this.game.physics.enable(this.wallTile, Phaser.Physics.ARCADE);
+			this.wallTile.body.immovable = true;
+			this.wallTiles.push(this.wallTile);
+		}
+	}
+};
+
+cave.prototype.createRoom = function(room) {
+	for (var x = room.x1; x < room.x2; x+=32) {
+		for (var y = room.y1; y < room.y2; y+=32) {
+			this.map.push(new this.Tile(x, y, false, false, "floor"));
+		};
+	};
+};
+
+cave.prototype.createHTunnel = function(x1, x2, y) {
+	this.min = Math.min(x1, x2);
+	this.max = Math.max(x1, x2);
+	for (var x = this.min; x < this.max + 32; x+=32) {
+		this.map.push(new this.Tile(x, y, false, false, "floor"));
+	};
+};
+
+cave.prototype.createVTunnel = function(y1, y2, x) {
+	this.min = Math.min(y1, y2);
+	this.max = Math.max(y1, y2);
+	for (var y = this.min; y < this.max + 32; y+=32) {
+		this.map.push(new this.Tile(x, y, false, false, "floor"));
+	};
+};
+
+cave.prototype.Tile = function(x, y, moveBlock, sightBlock, image) {
+	this.x = x;
+	this.y = y;
+	this.moveBlock = moveBlock;
+	this.sightBlock = sightBlock;
+	this.image = image;
+	this.object;
+};
+
+cave.prototype.Room = function(x, y, w, h) {
+	this.x1 = x;
+	this.y1 = y;
+	this.x2 = x + w;
+	this.y2 = y + h;
+
+	this.centerCoords = [];
+	centerX = (this.x1 + this.x2) / 2;
+	centerY = (this.y1 + this.y2) / 2;
+
+	this.centerCoords.push(centerX);
+	this.centerCoords.push(centerY);
+};
+
+cave.prototype.addPlayer = function(player) {
+	this.player = player;
+};
+
+module.exports = cave;
+},{"lodash":8}],2:[function(require,module,exports){
 var _ = require('lodash'),
-	game = new Phaser.Game(320, 240, Phaser.AUTO, 'gameDiv'),
+	game = new Phaser.Game(320, 256, Phaser.AUTO, 'gameDiv'),
     states = {
       boot: require('./states/boot.js'),
       preloader: require('./states/preloader.js'),
       menu: require('./states/menu.js'),
       game: require('./states/game.js'),
-      win: require('./states/win.js')
+      win: require('./states/win.js'),
     };
 
 _.each(states, function(state, key) {
@@ -14,61 +162,70 @@ _.each(states, function(state, key) {
 });
 
 game.state.start('boot');
-},{"./states/boot.js":2,"./states/game.js":3,"./states/menu.js":4,"./states/preloader.js":5,"./states/win.js":6,"lodash":7}],2:[function(require,module,exports){
+},{"./states/boot.js":3,"./states/game.js":4,"./states/menu.js":5,"./states/preloader.js":6,"./states/win.js":7,"lodash":8}],3:[function(require,module,exports){
 boot = {};
 
 boot.create = function() {
 	this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
 	this.game.state.start('preloader');
 };
 
 module.exports = boot;
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 var game = {};
 
 game.create = function() {
-	this.game.world.setBounds(-160, -120, 960, 720);
-
-	var bg = this.game.add.tileSprite(0, 0, 320, 240, 'droneBG');
+	this.game.world.setBounds(0, 0, 960, 768);
+	this.game.renderer.renderSession.roundPixels = true;
+	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
 
-	this.game.camera.x = 70 - 160;
-	this.game.camera.y = 140 - 120;
+	//this.game.camera.x = 70 - 160;
+	//this.game.camera.y = 140 - 120;
 
-	this.game.add.tileSprite(0, 0, 640, 480, 'droneMap');
+	//this.game.add.tileSprite(0, 0, 640, 480, 'droneMap');
 
-	this.player = this.game.add.sprite(0, 0, "player");
-	this.player.fixedToCamera = true;
-	this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
+	//this.player = this.game.add.sprite(0, 0, "player");
+	//this.player.fixedToCamera = true;
+	//this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
+
+
+	this.cave = new (require("../components/cave.js"))(this.game);
+	this.cave.create();
+
+	this.player = this.game.add.sprite(this.cave.playerX, this.cave.playerY, "player");
+	this.cave.addPlayer(this.player);
 	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
+	this.player.body.setSize(5, 5, 10, 10);
+	//this.player.fixedToCamera = true;
+	//this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
+	this.game.camera.bounds = null;
+	this.game.camera.follow(this.player);
 
 	this.win = this.game.add.sprite(550, 360, "win");
 	this.game.physics.enable(this.win, Phaser.Physics.ARCADE);
 
-	this.cursors = this.game.input.keyboard.createCursorKeys();
+	this.keyboard = this.game.input.keyboard;
 };
 
 game.update = function() {
+	this.cave.update();
 	this.game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);
 
-	if (this.cursors.up.isDown)
-    {
-        this.game.camera.y -= 5;
-    }
-    else if (this.cursors.down.isDown)
-    {
-        this.game.camera.y += 5;
-    }
-
-    if (this.cursors.left.isDown)
-    {
-        this.game.camera.x -= 5;
-    }
-    else if (this.cursors.right.isDown)
-    {
-        this.game.camera.x += 5;
-    }
+	if(this.keyboard.isDown(Phaser.Keyboard.A)) {
+		this.player.body.velocity.x = -175;
+	} else if(this.keyboard.isDown(Phaser.Keyboard.D)) {
+		this.player.body.velocity.x = 175;
+	} else {
+		this.player.body.velocity.x = 0;
+	}
+	if(this.keyboard.isDown(Phaser.Keyboard.W)) {
+		this.player.body.velocity.y = -175;
+	} else if(this.keyboard.isDown(Phaser.Keyboard.S)) {
+		this.player.body.velocity.y = 175;
+	} else {
+		this.player.body.velocity.y = 0;
+	}
 };
 
 game.Win = function() {
@@ -76,7 +233,7 @@ game.Win = function() {
 };
 
 module.exports = game;
-},{}],4:[function(require,module,exports){
+},{"../components/cave.js":1}],5:[function(require,module,exports){
 var menu = {};
 
 menu.create = function() {
@@ -101,7 +258,7 @@ menu.start = function() {
 };
 
 module.exports = menu;
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 var preloader = {};
 
 preloader.preload = function() {
@@ -111,9 +268,11 @@ preloader.preload = function() {
 	});
 
 	this.game.load.image("player", "assets/img/player.png");
+	this.game.load.image("floor", "assets/img/floor.png");
+	this.game.load.image("wall", "assets/img/wall.png");
 	this.game.load.image("win", "assets/img/win.png");
 	this.game.load.image("droneBG", "assets/img/drone-bg.jpg");
-	this.game.load.image("droneMap", "assets/img/drone-map.png");
+	//this.game.load.image("droneMap", "assets/img/drone-map.png");
 };
 
 preloader.create = function() {
@@ -121,7 +280,7 @@ preloader.create = function() {
 };
 
 module.exports = preloader;
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 var win = {};
 
 win.create = function() {
@@ -146,7 +305,7 @@ win.start = function() {
 };
 
 module.exports = win;
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -12385,4 +12544,4 @@ module.exports = win;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[1]);
+},{}]},{},[2]);
