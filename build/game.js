@@ -177,8 +177,6 @@ var game = {};
 game.create = function() {
 	this.game.world.setBounds(0, 0, 960, 768);
 	this.game.renderer.renderSession.roundPixels = true;
-	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
-	bg.fixedToCamera = true;
 
 	//this.game.camera.x = 70 - 160;
 	//this.game.camera.y = 140 - 120;
@@ -196,14 +194,18 @@ game.create = function() {
 	this.player = this.game.add.sprite(this.cave.playerX, this.cave.playerY, "player");
 	this.cave.addPlayer(this.player);
 	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
-	this.player.body.setSize(5, 5, 10, 10);
-	//this.player.fixedToCamera = true;
-	//this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
+	this.player.body.setSize(10, 10, 0, 0);
+
+	this.player.anchor.setTo(0.5, 0.5);
+
 	this.game.camera.bounds = null;
 	this.game.camera.follow(this.player);
 
 	this.win = this.game.add.sprite(550, 360, "win");
 	this.game.physics.enable(this.win, Phaser.Physics.ARCADE);
+
+	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
+	bg.fixedToCamera = true;
 
 	this.keyboard = this.game.input.keyboard;
 };
@@ -213,16 +215,16 @@ game.update = function() {
 	this.game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);
 
 	if(this.keyboard.isDown(Phaser.Keyboard.A)) {
-		this.player.body.velocity.x = -175;
+		this.player.body.velocity.x = -50;
 	} else if(this.keyboard.isDown(Phaser.Keyboard.D)) {
-		this.player.body.velocity.x = 175;
+		this.player.body.velocity.x = 50;
 	} else {
 		this.player.body.velocity.x = 0;
 	}
 	if(this.keyboard.isDown(Phaser.Keyboard.W)) {
-		this.player.body.velocity.y = -175;
+		this.player.body.velocity.y = -50;
 	} else if(this.keyboard.isDown(Phaser.Keyboard.S)) {
-		this.player.body.velocity.y = 175;
+		this.player.body.velocity.y = 50;
 	} else {
 		this.player.body.velocity.y = 0;
 	}
@@ -271,7 +273,7 @@ preloader.preload = function() {
 	this.game.load.image("floor", "assets/img/floor.png");
 	this.game.load.image("wall", "assets/img/wall.png");
 	this.game.load.image("win", "assets/img/win.png");
-	this.game.load.image("droneBG", "assets/img/drone-bg.jpg");
+	this.game.load.image("droneBG", "assets/img/drone-bg.png");
 	//this.game.load.image("droneMap", "assets/img/drone-map.png");
 };
 
