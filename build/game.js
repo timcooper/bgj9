@@ -1,6 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var _ = require('lodash'),
-	game = new Phaser.Game(640, 480, Phaser.AUTO, 'gameDiv'),
+	game = new Phaser.Game(320, 240, Phaser.AUTO, 'gameDiv'),
     states = {
       boot: require('./states/boot.js'),
       preloader: require('./states/preloader.js'),
@@ -28,32 +28,47 @@ module.exports = boot;
 var game = {};
 
 game.create = function() {
-	this.keyboard = this.game.input.keyboard;
+	this.game.world.setBounds(-160, -120, 960, 720);
 
-	this.player = this.game.add.sprite(16, 16, "player");
+	var bg = this.game.add.tileSprite(0, 0, 320, 240, 'droneBG');
+	bg.fixedToCamera = true;
+
+	this.game.camera.x = -90; //70
+	this.game.camera.y = 20; //140
+
+	this.game.add.tileSprite(0, 0, 640, 480, 'droneMap');
+
+	this.player = this.game.add.sprite(0, 0, "player");
+	this.player.fixedToCamera = true;
+	this.player.cameraOffset.setTo((this.game.camera.width/2)-12, (this.game.camera.height/2)-12);
 	this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
 
 	this.win = this.game.add.sprite(256, 256, "win");
 	this.game.physics.enable(this.win, Phaser.Physics.ARCADE);
+
+	this.cursors = this.game.input.keyboard.createCursorKeys();
 };
 
 game.update = function() {
 	this.game.physics.arcade.overlap(this.player, this.win, this.Win, null, this);
 
-	if(this.keyboard.isDown(Phaser.Keyboard.A)) {
-		this.player.body.velocity.x = -80;
-	} else if(this.keyboard.isDown(Phaser.Keyboard.D)) {
-		this.player.body.velocity.x = 80;
-	} else {
-		this.player.body.velocity.x = 0;
-	}
-	if(this.keyboard.isDown(Phaser.Keyboard.W)) {
-		this.player.body.velocity.y = -80;
-	} else if(this.keyboard.isDown(Phaser.Keyboard.S)) {
-		this.player.body.velocity.y = 80;
-	} else {
-		this.player.body.velocity.y = 0;
-	}
+	if (this.cursors.up.isDown)
+    {
+        this.game.camera.y -= 5;
+    }
+    else if (this.cursors.down.isDown)
+    {
+        this.game.camera.y += 5;
+    }
+
+    if (this.cursors.left.isDown)
+    {
+        this.game.camera.x -= 5;
+    }
+    else if (this.cursors.right.isDown)
+    {
+        this.game.camera.x += 5;
+    }
 };
 
 game.Win = function() {
@@ -97,6 +112,8 @@ preloader.preload = function() {
 
 	this.game.load.image("player", "assets/img/player.png");
 	this.game.load.image("win", "assets/img/win.png");
+	this.game.load.image("droneBG", "assets/img/drone-bg.jpg");
+	this.game.load.image("droneMap", "assets/img/drone-map.png");
 };
 
 preloader.create = function() {

@@ -8,6 +8,8 @@ preloader.preload = function() {
 
 	this.game.load.image("player", "assets/img/player.png");
 	this.game.load.image("win", "assets/img/win.png");
+	this.game.load.image("droneBG", "assets/img/drone-bg.jpg");
+	this.game.load.image("droneMap", "assets/img/drone-map.png");
 };
 
 preloader.create = function() {
