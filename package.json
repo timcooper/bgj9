@@ -1,0 +1,32 @@
+{
+  "name": "bgj9",
+  "version": "0.0.1",
+  "description": "BGJ Entry",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/timcooper/bgj9.git"
+  },
+  "author": "timcooper",
+  "browser": {
+    "lodash": "./node_modules/lodash/index.js",
+    "Phaser": "./node_modules/phaser/dist/phaser.js"
+  },
+  "browserify-shim": {
+    "lodash": {
+      "exports": "_"
+    }
+  },
+  "devDependencies": {
+    "browserify": "^10.2.4",
+    "browserify-shim": "^3.8.8",
+    "gulp": "^3.9.0",
+    "lodash": "^3.9.3",
+    "phaser": "^2.3.0",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
