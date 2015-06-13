@@ -29,7 +29,11 @@
     "jquery": "^2.1.4",
     "lodash": "^3.9.3",
     "phaser": "^2.3.0",
+    "reactify": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
   }
 }
