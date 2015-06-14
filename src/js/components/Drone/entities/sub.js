@@ -60,7 +60,7 @@ AppDispatcher.register(function(payload) {
 				message.create("Submersible fully repaired for "+usedMats+" materials");
 			}
 
-			time.tick(1);
+			time.tick(usedMats * .25);
 
 			break;
 		case "sub-escape":
