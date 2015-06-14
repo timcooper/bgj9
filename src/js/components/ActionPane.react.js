@@ -15,7 +15,7 @@ var ActionPane = React.createClass({
 		});
 	},
 	repairDrone: function(e) {
-		if($(e.target).hasClass("is-disabled")) return;
+		if($(e.target).hasClass("is-disabled") || this.props.data.health ==  this.props.data.maxHealth) return;
 		AppDispatcher.dispatch({
 			action: "drone-repair"
 		});
@@ -26,7 +26,8 @@ var ActionPane = React.createClass({
 			action: "drone-charge"
 		});
 	},
-	repairSub: function() {
+	repairSub: function(e) {
+		if($(e.target).hasClass("is-disabled")) return;
 		AppDispatcher.dispatch({
 			action: "sub-repair"
 		});
@@ -52,14 +53,18 @@ var ActionPane = React.createClass({
 
 		switch(this.props.type) {
 			case "sub":
-			  winClasses = cx({
-			  	'btn': true,
-			  	'is-disabled': !winCondition
-			  });
 			  dockClasses = cx({
 			  	'btn': true,
 			  	'is-disabled': !this.props.docked || this.props.droneDead
 			  });
+	          escapeClasses = cx({
+	          	'btn': true,
+	          	'is-disabled': !winCondition
+	          });
+	          repairClasses = cx({
+	          	'btn': true,
+	          	'is-disabled': data.attributes.health == data.attributes.maxHealth || data.inventory.materials == 0
+	          });
 			  help = '';
 			  if(this.props.droneDead) {
 			  	help = <p className="dock-help">Drone lost</p>
@@ -74,16 +79,23 @@ var ActionPane = React.createClass({
 	              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
 	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a>
 	                {help}</li>
-	              <li><a href="#" className="btn">Lights</a></li>
-	              <li><a href="#" className="btn" onClick={this.repairSub}>Repair</a></li>
-	              <li><a href="#" className={winClasses} onClick={this.endGame}>Escape</a></li>
+	              <li><a href="#" className={repairClasses} onClick={this.repairSub}>Repair</a></li>
+	              <li><a href="#" className={escapeClasses} onClick={this.endGame}>Escape</a></li>
 	            </ul>
 	          </section>)
 	          break;
 	        case "drone":
-	          btnClasses = cx({
+	          unloadClasses = cx({
 	          	'btn': true,
-	          	'is-disabled': !data.docked
+	          	'is-disabled': !data.docked || data.inventory.materials == 0
+	          });
+	          chargeClasses = cx({
+	          	'btn': true,
+	          	'is-disabled': !data.docked || data.attributes.charge == data.attributes.maxCharge
+	          });
+	          repairClasses = cx({
+	          	'btn': true,
+	          	'is-disabled': !data.docked || data.attributes.health == data.attributes.maxHealth
 	          });
 	          if(!data.dead) {
 	          	return (<section className={classes}>
@@ -92,9 +104,9 @@ var ActionPane = React.createClass({
 		              <li>Charge: {parseInt(data.attributes.charge)}/{data.attributes.maxCharge}</li>
 		              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
 		              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
-		              <li><a href="#" className={btnClasses} onClick={this.unloadDrone}>Unload</a></li>
-		              <li><a href="#" className={btnClasses} onClick={this.chargeDrone}>Charge</a></li>
-		              <li><a href="#" className={btnClasses} onClick={this.repairDrone}>Repair</a></li>
+		              <li><a href="#" className={unloadClasses} onClick={this.unloadDrone}>Unload</a></li>
+		              <li><a href="#" className={chargeClasses} onClick={this.chargeDrone}>Charge</a></li>
+		              <li><a href="#" className={repairClasses} onClick={this.repairDrone}>Repair</a></li>
 		            </ul>
 		          </section>)
 	          }else{

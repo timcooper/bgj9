@@ -20,9 +20,10 @@ var sub = assign({}, SaveStore.prototype, {
     },
 
 	create: function(x, y, game) {
-		this.sprite = game.add.sprite(x, y, "win");
-		game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
-	}
+		this.game = game;
+		this.sprite = this.game.add.sprite(x, y, "win");
+		this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+	},
 
 });
 

@@ -13,11 +13,16 @@ preloader.preload = function(onLoad) {
 	this.game.load.image("win", "assets/img/win.png");
 	this.game.load.image("droneBG", "assets/img/drone-bg.png");
 
-	this.game.load.audio("mainLoop", ["assets/audio/bgj9 exploration (draft 1) (loop).mp3"]);
-	this.game.load.audio("tenseLoop", ["assets/audio/bgj9 tense (draft 1) (loop).mp3"]);
+	this.game.load.audio("mainLoop", ["assets/audio/exploration.mp3", "assets/audio/exploration.ogg"]);
+	this.game.load.audio("tenseLoop", ["assets/audio/tense.mp3", "assets/audio/tense.ogg"]);
+	this.game.load.audio("tenseLoop", ["assets/audio/megatense.mp3", "assets/audio/megatense.ogg"]);
 
-	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3"]);
-	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3"]);
+	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3", "assets/audio/deployDrone.ogg"]);
+	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3", "assets/audio/dockDrone.ogg"]);
+
+	this.game.load.audio("enemyAttack", ["assets/audio/enemyAttack.mp3", "assets/audio/enemyAttack.ogg"]);
+	this.game.load.audio("repair", ["assets/audio/repair.mp3", "assets/audio/repair.ogg"]);
+	this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
 };
 
 preloader.create = function() {

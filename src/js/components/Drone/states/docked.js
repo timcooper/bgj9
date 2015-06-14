@@ -24,6 +24,9 @@ docked.deploy = function(payload) {
 		game.state.start("game");
 		message.create("Drone deployed");
 	}
+	if(payload.action == "drone-repair" || payload.action == "sub-repair") {
+		game.sound.play("repair");
+	}
 };
 
 AppDispatcher.register(docked.deploy);

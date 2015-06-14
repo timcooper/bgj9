@@ -89,6 +89,7 @@ var drone = assign({}, SaveStore.prototype, {
 		}
 	},
 	hit: function(amount) {
+		this.game.sound.play("enemyAttack");
 		droneData = this.getData();
 
 		if(droneData.attributes.health - amount < 0) {
@@ -100,7 +101,7 @@ var drone = assign({}, SaveStore.prototype, {
 		droneData.attributes.health -= amount;
 
 		this.setData(droneData);
-	}
+	},
 
 });
 
