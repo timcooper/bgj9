@@ -16,6 +16,21 @@ var ActionPane = React.createClass({
 			$("#launch").removeClass('is-disabled');
 		}
 	},
+	unloadDrone: function() {
+		AppDispatcher.dispatch({
+			action: "drone-unload"
+		});
+	},
+	repairSub: function() {
+		AppDispatcher.dispatch({
+			action: "sub-repair"
+		});
+	},
+	repairDrone: function() {
+		AppDispatcher.dispatch({
+			action: "drone-repair"
+		});
+	},
 	render: function() {
 		var cx = React.addons.classSet;
 		var classes = cx({
@@ -40,7 +55,7 @@ var ActionPane = React.createClass({
 	              <li><a id="launch" href="#" className="btn" onClick={this.deployDrone}>Deploy Drone</a>
 	                <p className="dock-help">Drone deployed, return to dirigible to dock</p></li>
 	              <li><a href="#" className="btn">Lights</a></li>
-	              <li><a href="#" className="btn">Repair</a></li>
+	              <li><a href="#" className="btn" onClick={this.repairSub}>Repair</a></li>
 	            </ul>
 	          </section>)
 	          break;
@@ -51,7 +66,8 @@ var ActionPane = React.createClass({
 	              <li>Charge: {data.attributes.charge}/{data.attributes.maxCharge}</li>
 	              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
 	              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
-	              <li><a href="#" className="btn">Repair</a></li>
+	              <li><a href="#" className="btn" onClick={this.unloadDrone}>Unload</a></li>
+	              <li><a href="#" className="btn" onClick={this.repairDrone}>Repair</a></li>
 	            </ul>
 	          </section>)
 	          break;

@@ -2,7 +2,7 @@ var SaveStore = require("../../../stores/SaveStore"),
 	assign = require("react/lib/Object.assign"),
 	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
 	message = require("../entities/message"),
-	Sub = require("../entities/sub");
+	sub = require("../entities/sub");
 
 //var CHANGE_EVENT = 'change';
 
@@ -37,6 +37,35 @@ var drone = assign({}, SaveStore.prototype, {
 
 AppDispatcher.register(function(payload) {
 	switch(payload.action) {
+		case "drone-repair":
+			droneData = drone.getData();
+			subData = sub.getData();
+
+			if(subData.inventory.materials == 0) {
+				message.create("No materials in dirigible cargo to use for repairs");
+				break;
+			}
+
+			maxRepair = droneData.attributes.repairRate * subData.inventory.materials;
+			neededRepair = droneData.attributes.maxHealth - droneData.attributes.health;
+
+			total = droneData.attributes.health + maxRepair;
+			diff = droneData.attributes.maxHealth - total;
+
+			if(diff > 0) {
+				droneData.attributes.health += maxRepair;
+				usedMats = subData.inventory.materials;
+				subData.inventory.materials = 0;
+				message.create("Drone repaired by "+maxRepair+" for "+usedMats+" materials");
+			}else{
+				droneData.attributes.health = droneData.attributes.maxHealth;
+				usedMats = Math.ceil(neededRepair / droneData.attributes.repairRate);
+				subData.inventory.materials -= usedMats;
+				message.create("Drone fully repaired for "+usedMats+" materials");
+			}
+
+			break;
+
 		case "drone-pickup":
 			droneData = drone.getData();
 			if(droneData.inventory.materials + payload.data.value > droneData.attributes.maxInventory){
@@ -47,13 +76,18 @@ AppDispatcher.register(function(payload) {
 			drone.setData(droneData);
 			break;
 
-		case "drone-dock":
+		case "drone-unload":
 			droneData = drone.getData();
-			subData = Sub.getData();
+			subData = sub.getData();
 
 			if(droneData.inventory.materials == 0) {
 				message.create("No materials to store in cargo");
 				break;
+			}
+
+			if(subData.inventory.materials == subData.attributes.maxInventory) {
+				message.create("Dirigible cargo full");
+				break
 			}
 
 			total = subData.inventory.materials + droneData.inventory.materials;

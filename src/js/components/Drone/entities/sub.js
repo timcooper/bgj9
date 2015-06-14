@@ -1,5 +1,7 @@
 var SaveStore = require("../../../stores/SaveStore"),
-	assign = require("react/lib/Object.assign");
+	assign = require("react/lib/Object.assign"),
+	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
+	message = require("../entities/message");
 
 //var CHANGE_EVENT = 'change';
 
@@ -23,33 +25,36 @@ var sub = assign({}, SaveStore.prototype, {
 
 });
 
+AppDispatcher.register(function(payload) {
+	switch(payload.action) {
+		case "sub-repair":
+			subData = sub.getData();
 
-/*sub.dispatchToken = AppDispatcher.register(function(payload) {
-  var action = payload.action;
+			if(subData.inventory.materials == 0) {
+				message.create("No materials in dirigible cargo to use for repairs");
+				break;
+			}
 
-  switch(action.type) {
+			maxRepair = subData.attributes.repairRate * subData.inventory.materials;
+			neededRepair = subData.attributes.maxHealth - subData.attributes.health;
 
-    case "RECEIVE_SAVE":
-      console.log(action.save);
-      data = action.save;
-      sub.emitChange();
-      break;
+			total = subData.attributes.health + maxRepair;
+			diff = subData.attributes.maxHealth - total;
 
-    default:
-      // do nothing
-  }
+			if(diff > 0) {
+				subData.attributes.health += maxRepair;
+				usedMats = subData.inventory.materials;
+				subData.inventory.materials = 0;
+				message.create("Dirigible repaired by "+maxRepair+" for "+usedMats+" materials");
+			}else{
+				subData.attributes.health = subData.attributes.maxHealth;
+				usedMats = Math.ceil(neededRepair / subData.attributes.repairRate);
+				subData.inventory.materials -= usedMats;
+				message.create("Dirigible fully repaired for "+usedMats+" materials");
+			}
 
-});*/
-
-/*var sub = function(x, y, game) {
-	this.game   = game;
-	this.sprite = this.game.add.sprite(x, y, "player");
-	this.health = 100;
-	this.maxHealth = 100;
-	this.charge = 100;
-	this.maxCharge = 100;
-	this.inventory = {};
-	this.inventoryRoom = 10;
-};*/
+			break;
+	}
+});
 
 module.exports = sub;
