@@ -47,9 +47,8 @@ var ActionPane = React.createClass({
 		  'is-active': this.props.type == 'sub'
 		});
 
-		var data = this.props.data;
-this.data = data;
-		var winCondition = this.props.type == 'sub' && data.attributes.health == data.attributes.maxHealth;
+		this.data = this.props.data;
+		var winCondition = this.props.type == 'sub' && this.data.attributes.health == this.data.attributes.maxHealth;
 
 		switch(this.props.type) {
 			case "sub":
@@ -63,7 +62,7 @@ this.data = data;
 	          });
 	          repairClasses = cx({
 	          	'btn': true,
-	          	'is-disabled': data.attributes.health == data.attributes.maxHealth || data.inventory.materials == 0
+	          	'is-disabled': this.data.attributes.health == this.data.attributes.maxHealth || this.data.inventory.materials == 0
 	          });
 			  help = '';
 			  if(this.props.droneDead) {
@@ -75,8 +74,8 @@ this.data = data;
 	            <h2>Submersible</h2>
 	            <ul>
 	              <li>Oxygen Remaining: {this.props.time.remains} hours</li>
-	              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
-	              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
+	              <li>Materials: {this.data.inventory.materials}/{this.data.attributes.maxInventory}</li>
+	              <li>Hull: {this.data.attributes.health}/{this.data.attributes.maxHealth}</li>
 	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a>
 	                {help}</li>
 	              <li><a href="#" className={repairClasses} onClick={this.repairSub}>Repair</a></li>
@@ -87,23 +86,23 @@ this.data = data;
 	        case "drone":
 	          unloadClasses = cx({
 	          	'btn': true,
-	          	'is-disabled': !data.docked || data.inventory.materials == 0
+	          	'is-disabled': !this.data.docked || this.data.inventory.materials == 0
 	          });
 	          chargeClasses = cx({
 	          	'btn': true,
-	          	'is-disabled': !data.docked || data.attributes.charge == data.attributes.maxCharge
+	          	'is-disabled': !this.data.docked || this.data.attributes.charge == this.data.attributes.maxCharge
 	          });
 	          repairClasses = cx({
 	          	'btn': true,
-	          	'is-disabled': !data.docked || data.attributes.health == data.attributes.maxHealth
+	          	'is-disabled': !this.data.docked || this.data.attributes.health == this.data.attributes.maxHealth
 	          });
-	          if(!data.dead) {
+	          if(!this.data.dead) {
 	          	return (<section className={classes}>
 		            <h2>Drone</h2>
 		            <ul>
-		              <li>Charge: {parseInt(data.attributes.charge)}/{data.attributes.maxCharge}</li>
-		              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
-		              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
+		              <li>Charge: {parseInt(this.data.attributes.charge)}/{this.data.attributes.maxCharge}</li>
+		              <li>Hull: {this.data.attributes.health}/{this.data.attributes.maxHealth}</li>
+		              <li>Materials: {this.data.inventory.materials}/{this.data.attributes.maxInventory}</li>
 		              <li><a href="#" className={unloadClasses} onClick={this.unloadDrone}>Unload</a></li>
 		              <li><a href="#" className={chargeClasses} onClick={this.chargeDrone}>Charge</a></li>
 		              <li><a href="#" className={repairClasses} onClick={this.repairDrone}>Repair</a></li>

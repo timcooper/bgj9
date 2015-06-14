@@ -36,7 +36,8 @@ module.exports = {
 	    	"remains": 24,
 	    	"total": 24
 	    },
-	    "dead": false
+	    "dead": false,
+	    "escaped": false
     }));
   }
 };

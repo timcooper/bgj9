@@ -6,7 +6,7 @@ var SaveStore = require("../stores/SaveStore");
 var Game = React.createClass({
 
 	getInitialState: function() {
-		return {loaded: false, started: false, dead: false };
+		return {loaded: false, started: false, dead: false, escaped: false };
 	},
 
   componentDidMount: function() {
@@ -14,15 +14,15 @@ var Game = React.createClass({
   },
 
   _onChange: function() {
-    this.setState({dead: SaveStore.get("dead")});
+    this.setState({dead: SaveStore.get("dead"), escaped: SaveStore.get("escaped")});
   },
 
 	onLoad: function() {
-		this.setState({loaded: true, started: false, dead: false});
+		this.setState({loaded: true});
 	},
 
   onStart: function() {
-    this.setState({loaded: true, started: true, dead: false})
+    this.setState({started: true})
   },
 
   onRestart: function() {
@@ -32,10 +32,11 @@ var Game = React.createClass({
   render: function() {
     return (
     	<div className="container">
-    		<UI started={this.state.started} dead={this.state.dead} onLoad={this.onLoad} />
+    		<UI started={this.state.started} dead={this.state.dead} escaped={this.state.escaped} onLoad={this.onLoad} />
         <Start started={this.state.started} loaded={this.state.loaded} onStart={this.onStart} />
         <Preloader loaded={this.state.loaded} dead={this.state.dead} />
-        <End onRestart={this.onRestart} />
+        <Dead dead={this.state.dead} onRestart={this.onRestart} />
+        <Escaped escaped={this.state.escaped} onRestart={this.onRestart} />
     	</div>
     );
   }
@@ -86,13 +87,36 @@ var Start = React.createClass({
   }
 });
 
-var End = React.createClass({
+var Escaped = React.createClass({
   render: function() {
     var cx = React.addons.classSet;
     var classes = cx({
       'game': true,
       'game--start': true,
-      'is-disabled': !SaveStore.get("dead")
+      'is-disabled': !this.props.escaped
+    });
+    return (
+      <div className={classes}>
+        <div className="intro">
+          <h1 className="intro__title">You Escaped</h1>
+          <div className="intro__text">
+            <p>Congratulations, you were able to repair your submersible and escape the cave.</p>
+            <p>Please hold for next assignment.</p>
+          </div>
+          <a href="#" className="btn" onClick={this.props.onRestart}>Restart</a>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Dead = React.createClass({
+  render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'game': true,
+      'game--start': true,
+      'is-disabled': !this.props.dead
     });
     return (
       <div className={classes}>

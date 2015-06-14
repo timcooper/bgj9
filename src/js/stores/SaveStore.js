@@ -27,6 +27,11 @@ var SaveStore = assign({}, EventEmitter.prototype, {
     return _save;
   },
 
+  setEscaped: function(escaped) {
+    _save['escaped'] = escaped;
+    this.emit(CHANGE_EVENT);
+  },
+
   setDead: function(dead) {
     _save['dead'] = dead;
     this.emit(CHANGE_EVENT);

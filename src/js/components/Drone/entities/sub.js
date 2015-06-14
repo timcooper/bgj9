@@ -26,6 +26,10 @@ var sub = assign({}, SaveStore.prototype, {
 		this.sprite.body.setSize(24, 10, 0, 4);
 	},
 
+	escape: function(sub) {
+		SaveStore.setEscaped(true);
+	}
+
 });
 
 AppDispatcher.register(function(payload) {
@@ -64,8 +68,7 @@ AppDispatcher.register(function(payload) {
 				message.create("Submersible hull not fully repaired");
 				break;
 			}
-
-			alert("winner!");
+			sub.escape();
 			break;
 	}
 });

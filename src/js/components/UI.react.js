@@ -57,7 +57,7 @@ var UI = React.createClass({
     var cx = React.addons.classSet;
     var classes = cx({
       'game': true,
-      'is-disabled': !this.props.started || this.props.dead
+      'is-disabled': !this.props.started || this.props.dead || this.props.escaped
     });
 
     return (
