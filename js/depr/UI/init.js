@@ -1,4 +1,5 @@
 var UI = {},
+	PubSub = require("PubSub"),
 	docked = require('../states/docked.js'),
 	droneDeployed = false;
 
@@ -23,7 +24,8 @@ $('#launch').click(function() {
 
 UI.dockDrone = function() {
 	droneDeployed = false;
-	$('.game__update-list ul').prepend('<li class="game__update-item">Drone docked!</li>');
+	PubSub.publish('updates.add', "Drone docked!");
+	//$('.game__update-list ul').prepend('<li class="game__update-item">Drone docked!</li>');
 	$('.dock-help').hide();
 	$("#launch").removeClass('is-disabled');
 	docked.game.state.start("docked");
@@ -31,10 +33,13 @@ UI.dockDrone = function() {
 
 UI.launchDrone = function() {
 	droneDeployed = true;
-	$('.game__update-list ul').prepend('<li class="game__update-item">Drone deployed!</li>');
+	PubSub.publish('updates.add', "Drone deployed!");
+	//$('.game__update-list ul').prepend('<li class="game__update-item">Drone deployed!</li>');
 	$('.dock-help').show();
 	$("#launch").addClass('is-disabled');
 	docked.start();
 }
+
+PubSub.subscribe('drone.dock', UI.dockDrone);
 
 module.exports = UI;

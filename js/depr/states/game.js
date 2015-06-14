@@ -1,4 +1,5 @@
 var game = {},
+PubSub = global.PubSub,
 UI = require("../UI/init.js");
 
 game.create = function() {
@@ -67,9 +68,9 @@ game.update = function() {
 };
 
 game.dockDrone = function() {
+	PubSub.publish('drone.dock', true);
 	this.music.stop();
 	this.game.sound.play("dockDrone");
-	UI.dockDrone();
 };
 
 module.exports = game;

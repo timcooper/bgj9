@@ -122,17 +122,16 @@ gulp.task("react", function() {
 })
 
 gulp.task("watch", function() {
-	gulp.watch("./js/**/*.js", ["js"]);
 	gulp.watch("./src/js/**/*.js", ["react"]);
 });
 
-gulp.task("js", function() {
+/*gulp.task("js", function() {
 	var b = browserify("./js/main.js");
 	return b.bundle()
 		.pipe(source("main.js"))
 		.pipe(buffer())
 		.pipe(uglify())
 		.pipe(gulp.dest("./build/"));
-});
+});*/
 
-gulp.task("default", ["watch", "js"]);
+gulp.task("default", ["watch", "react"]);

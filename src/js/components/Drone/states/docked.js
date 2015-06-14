@@ -19,7 +19,6 @@ docked.create = function() {
 
 docked.deploy = function(payload) {
 	if(payload.action == "drone-deploy") {
-		console.log('deploying');
 		music.stop();
 		game.sound.play("deployDrone");
 		game.state.start("game");

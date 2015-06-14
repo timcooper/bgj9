@@ -8,7 +8,7 @@ var _ = require('lodash'),
     },
     UI = require('./UI/init.js'),
     level;
-
+global.PubSub = require("PubSub");
 _.each(states, function(state, key) {
   game.state.add(key, state);
 });

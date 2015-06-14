@@ -1,3 +1,5 @@
+var PubSub = require("PubSub");
+
 var drone = function(x, y, game) {
 	this.game   = game;
 	this.sprite = this.game.add.sprite(x, y, "player");
@@ -9,6 +11,10 @@ var drone = function(x, y, game) {
 	this.inventoryRoom = 10;
 };
 
+drone.prototype.dock = function(channel, message) {
+	console.log('DOCKED', message);
+};
+
 drone.prototype.create = function() {
 	this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
 	this.sprite.body.setSize(10, 10, 0, 0);
@@ -17,6 +23,8 @@ drone.prototype.create = function() {
 	this.sprite.body.bounce.set(0.6);
 
 	this.sprite.anchor.setTo(0.5, 0.5);
+
+	PubSub.subscribe('drone.dock', this.dock);
 
 	return this.sprite;
 }
