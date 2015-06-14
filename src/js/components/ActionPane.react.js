@@ -10,9 +10,11 @@ var ActionPane = React.createClass({
 		$("#launch").addClass('is-disabled');
 		$('.dock-help').show();
 	},
-	dockDrone: function() {
-		$('.dock-help').hide();
-		$("#launch").removeClass('is-disabled');
+	dockDrone: function(payload) {
+		if(payload.action == "drone-dock") {
+			$('.dock-help').hide();
+			$("#launch").removeClass('is-disabled');
+		}
 	},
 	render: function() {
 		var cx = React.addons.classSet;

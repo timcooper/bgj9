@@ -1,4 +1,6 @@
-var _ = require("lodash");
+var _ = require("lodash"),
+	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
+	message = require("../entities/message");
 
 cave = function(game) {
 	this.game = game;
@@ -10,6 +12,8 @@ cave.prototype.create = function() {
 	this.map = [];
 	this.wallTiles = [];
 	this.floorTiles = [];
+
+	this.pickups = [];
 
 	this.roomMaxSize = 4;
 	this.roomMinSize = 2;
@@ -33,7 +37,18 @@ cave.prototype.update = function() {
 	};
 
 	this.game.physics.arcade.collide(this.wallTiles, this.player);
+	this.game.physics.arcade.overlap(this.pickups, this.player, this.pickup);
 };
+
+cave.prototype.pickup = function(obj1, obj2) {
+	AppDispatcher.dispatch({
+		action: "drone-pickup",
+		data: obj1
+	});
+
+	obj1.body = null;
+	obj1.destroy();
+}
 
 cave.prototype.collision = function(obj1, obj2) {
 	console.log(obj1, obj2);
@@ -95,7 +110,20 @@ cave.prototype.renderMap = function() {
 			this.wallTiles.push(this.wallTile);
 		}
 	}
+
+	this.renderPickups();
 };
+
+cave.prototype.renderPickups = function() {
+	for(var i = 1; i < this.rooms.length; i++) {
+		var pickup = this.game.add.sprite(this.rooms[i].centerCoords[0], this.rooms[i].centerCoords[1], "pickup");
+		this.game.physics.enable(pickup, Phaser.Physics.ARCADE);
+		pickup.anchor.setTo(0.5, 0.5);
+		pickup.body.immovable = true;
+		pickup.value = i;
+		this.pickups.push(pickup);
+	};
+}
 
 cave.prototype.createRoom = function(room) {
 	for (var x = room.x1; x < room.x2; x+=32) {

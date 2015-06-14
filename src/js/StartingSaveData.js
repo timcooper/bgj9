@@ -10,7 +10,7 @@ module.exports = {
 	    		"maxInventory": 100
 	    	},
 	    	"inventory": {
-	    		"materials": 40
+	    		"materials": 10
 	    	}
     	},
     	"drone": {
@@ -22,7 +22,7 @@ module.exports = {
 	    		"maxInventory": 20
 	    	},
 	    	"inventory": {
-	    		"materials": 5
+	    		"materials": 0
 	    	}
 	    },
 	    "messages": [

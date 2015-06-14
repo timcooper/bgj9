@@ -1,12 +1,14 @@
 var SaveStore = require("../../../stores/SaveStore"),
-	assign = require("react/lib/Object.assign");
+	assign = require("react/lib/Object.assign"),
+	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
+	message = require("../entities/message");
 
 //var CHANGE_EVENT = 'change';
 
 var drone = assign({}, SaveStore.prototype, {
 
 	getData: function() {
-		return SaveStore.getAll();
+		return SaveStore.get("drone");
 	},
 
 	setData: function(newData) {
@@ -34,6 +36,18 @@ var drone = assign({}, SaveStore.prototype, {
 		console.log('DOCKED', message);
 	}
 
+});
+
+AppDispatcher.register(function(payload) {
+	if(payload.action == "drone-pickup") {
+		save = drone.getData();
+		if(save.inventory.materials + payload.data.value > save.attributes.maxInventory){
+			save.inventory.materials = save.attributes.maxInventory;
+		}else{
+			save.inventory.materials += payload.data.value;
+		}
+		drone.setData(save);
+	}
 });
 
 

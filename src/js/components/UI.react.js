@@ -16,10 +16,19 @@
  * @jsx React.DOM
  */
 
-var Drone = require('./Drone/entities/drone');
+var Drone = require('./Drone/entities/drone'),
+    Sub = require("./Drone/entities/sub"),
+    Message = require("./Drone/entities/message"),
+    Time = require("./Drone/entities/time");
 
 function getStateFromStores() {
-  return Drone.getData();
+  var store = {
+    drone: Drone.getData(),
+    sub: Sub.getData(),
+    messages: Message.getData(),
+    time: Time.getData()
+  }
+  return store;
 }
 
 var React = require('React'),
@@ -35,6 +44,9 @@ var UI = React.createClass({
 
   componentDidMount: function() {
     Drone.addChangeListener(this._onChange);
+    Sub.addChangeListener(this._onChange);
+    Message.addChangeListener(this._onChange);
+    Time.addChangeListener(this._onChange);
   },
 
   render: function() {
