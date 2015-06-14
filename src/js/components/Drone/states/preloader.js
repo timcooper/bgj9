@@ -15,14 +15,17 @@ preloader.preload = function(onLoad) {
 
 	this.game.load.audio("mainLoop", ["assets/audio/exploration.mp3", "assets/audio/exploration.ogg"]);
 	this.game.load.audio("tenseLoop", ["assets/audio/tense.mp3", "assets/audio/tense.ogg"]);
-	this.game.load.audio("tenseLoop", ["assets/audio/megatense.mp3", "assets/audio/megatense.ogg"]);
+	//this.game.load.audio("megaTenseLoop", ["assets/audio/megatense.mp3", "assets/audio/megatense.ogg"]);
 
 	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3", "assets/audio/deployDrone.ogg"]);
 	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3", "assets/audio/dockDrone.ogg"]);
 
 	this.game.load.audio("enemyAttack", ["assets/audio/enemyAttack.mp3", "assets/audio/enemyAttack.ogg"]);
 	this.game.load.audio("repair", ["assets/audio/repair.mp3", "assets/audio/repair.ogg"]);
-	this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
+	this.game.load.audio("crash", ["assets/audio/crash.mp3", "assets/audio/crash.ogg"]);
+	this.game.load.audio("pickup", ["assets/audio/pickup.mp3", "assets/audio/pickup.ogg"]);
+	this.game.load.audio("unload", ["assets/audio/unload.mp3", "assets/audio/unload.ogg"]);
+	//this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
 };
 
 preloader.create = function() {

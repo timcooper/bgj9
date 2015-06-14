@@ -47,7 +47,7 @@ var drone = assign({}, SaveStore.prototype, {
 			if(this.charge - 0.005 < 0) {
 				this.data.attributes.charge = 0;
 				this.data.dead = true;
-				//this.game.state.start("dead");
+				this.game.sound.play("crash");
 			}
 			this.charge -= 0.005;
 
@@ -171,6 +171,7 @@ AppDispatcher.register(function(payload) {
 			break;
 
 		case "drone-pickup":
+			drone.game.sound.play("pickup");
 			droneData = drone.getData();
 			if(droneData.inventory.materials + payload.data.value > droneData.attributes.maxInventory){
 				droneData.inventory.materials = droneData.attributes.maxInventory;
@@ -181,6 +182,7 @@ AppDispatcher.register(function(payload) {
 			break;
 
 		case "drone-unload":
+			drone.game.sound.play("unload");
 			droneData = drone.getData();
 			subData = sub.getData();
 
