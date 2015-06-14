@@ -15,7 +15,7 @@ var ActionPane = React.createClass({
 		});
 	},
 	repairDrone: function(e) {
-		if($(e.target).hasClass("is-disabled") || this.props.data.health ==  this.props.data.maxHealth) return;
+		if($(e.target).hasClass("is-disabled") || this.data.attributes.health == this.data.attributes.maxHealth) return;
 		AppDispatcher.dispatch({
 			action: "drone-repair"
 		});
@@ -48,7 +48,7 @@ var ActionPane = React.createClass({
 		});
 
 		var data = this.props.data;
-
+this.data = data;
 		var winCondition = this.props.type == 'sub' && data.attributes.health == data.attributes.maxHealth;
 
 		switch(this.props.type) {
