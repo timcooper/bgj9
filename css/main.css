@@ -21,7 +21,7 @@ ul {
 	height: 587px;
 	overflow: hidden;
 	width: 1206px;
-	margin: 0 auto;
+	margin: 3em auto;
 }
 
 .game {
@@ -153,11 +153,11 @@ ul {
 }
 
 	.intro__title {
-		margin-bottom: 2em;
+		margin-bottom: 28px;
 	}
 
 	.intro__text {
-		margin-bottom: 2em;
+		margin-bottom: 28px;
 	}
 
 .btn {
