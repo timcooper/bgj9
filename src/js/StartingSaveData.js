@@ -8,7 +8,7 @@ module.exports = {
 	    		"health":    30,
 	    		"maxHealth": 100,
 	    		"repairRate": 1,
-	    		"maxInventory": 100
+	    		"maxInventory": 50
 	    	},
 	    	"inventory": {
 	    		"materials": 10
@@ -20,8 +20,8 @@ module.exports = {
 	    	"attributes": {
 	    		"health":    20,
 	    		"maxHealth": 20,
-	    		"charge":    100,
-	    		"maxCharge": 100,
+	    		"charge":    20,
+	    		"maxCharge": 20,
 	    		"maxInventory": 20,
 	    		"repairRate": 2
 	    	},
