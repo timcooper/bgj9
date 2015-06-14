@@ -54,6 +54,14 @@ AppDispatcher.register(function(payload) {
 			}
 
 			break;
+		case "sub-escape":
+			if(payload.disabled) {
+				message.create("Dirigible hull not fully repaired");
+				break;
+			}
+
+			alert("winner!");
+			break;
 	}
 });
 

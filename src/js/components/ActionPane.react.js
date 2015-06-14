@@ -31,6 +31,12 @@ var ActionPane = React.createClass({
 			action: "drone-repair"
 		});
 	},
+	endGame: function(e) {
+		AppDispatcher.dispatch({
+			action: "sub-escape",
+			disabled: $(e.target).hasClass("is-disabled")
+		});
+	},
 	render: function() {
 		var cx = React.addons.classSet;
 		var classes = cx({
@@ -42,10 +48,16 @@ var ActionPane = React.createClass({
 
 		var data = this.props.data;
 
+		var winCondition = this.props.type == 'sub' && data.attributes.health == data.attributes.maxHealth;
+
 		AppDispatcher.register(this.dockDrone);
 
 		switch(this.props.type) {
 			case "sub":
+			  winClasses = cx({
+			  	'btn': true,
+			  	'is-disabled': !winCondition
+			  });
 	          return (<section className={classes}>
 	            <h2>Dirigible</h2>
 	            <ul>
@@ -56,6 +68,7 @@ var ActionPane = React.createClass({
 	                <p className="dock-help">Drone deployed, return to dirigible to dock</p></li>
 	              <li><a href="#" className="btn">Lights</a></li>
 	              <li><a href="#" className="btn" onClick={this.repairSub}>Repair</a></li>
+	              <li><a href="#" className={winClasses} onClick={this.endGame}>Escape</a></li>
 	            </ul>
 	          </section>)
 	          break;
