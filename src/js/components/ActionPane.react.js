@@ -71,11 +71,12 @@ var ActionPane = React.createClass({
 			  	help = <p className="dock-help">Drone deployed, return to sub to dock</p>
 			  }
 	          return (<section className={classes}>
-	            <h2>Submersible</h2>
-	            <ul>
-	              <li>Oxygen Remaining: {this.props.time.remains} hours</li>
-	              <li>Materials: {this.data.inventory.materials}/{this.data.attributes.maxInventory}</li>
-	              <li>Hull: {this.data.attributes.health}/{this.data.attributes.maxHealth}</li>
+	            <dl className="attributes">
+	              <dt>O<sub>2</sub> Remaining</dt><dd>{this.props.time.remains} hours</dd>
+	              <dt>Hull</dt><dd>{this.data.attributes.health}/{this.data.attributes.maxHealth}</dd>
+	              <dt>Materials</dt><dd>{this.data.inventory.materials}/{this.data.attributes.maxInventory}</dd>
+              	</dl>
+              	<ul className="list-inline">
 	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a>
 	                {help}</li>
 	              <li><a href="#" className={repairClasses} onClick={this.repairSub}>Repair</a></li>
@@ -98,11 +99,12 @@ var ActionPane = React.createClass({
 	          });
 	          if(!this.data.dead) {
 	          	return (<section className={classes}>
-		            <h2>Drone</h2>
-		            <ul>
-		              <li>Charge: {parseInt(this.data.attributes.charge)}/{this.data.attributes.maxCharge}</li>
-		              <li>Hull: {this.data.attributes.health}/{this.data.attributes.maxHealth}</li>
-		              <li>Materials: {this.data.inventory.materials}/{this.data.attributes.maxInventory}</li>
+	            	<dl className="attributes">
+		              <dt>Charge</dt><dd>{parseInt(this.data.attributes.charge)}/{this.data.attributes.maxCharge}</dd>
+		              <dt>Hull</dt><dd>{this.data.attributes.health}/{this.data.attributes.maxHealth}</dd>
+		              <dt>Materials</dt><dd>{this.data.inventory.materials}/{this.data.attributes.maxInventory}</dd>
+	              	</dl>
+              		<ul className="list-inline">
 		              <li><a href="#" className={unloadClasses} onClick={this.unloadDrone}>Unload</a></li>
 		              <li><a href="#" className={chargeClasses} onClick={this.chargeDrone}>Charge</a></li>
 		              <li><a href="#" className={repairClasses} onClick={this.repairDrone}>Repair</a></li>

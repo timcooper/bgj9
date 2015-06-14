@@ -159,7 +159,10 @@ ul {
 		.game__action-panel {
 			position: absolute;
 			top: 63px;
-			width: 552px;
+			width: 536px;
+			padding: 5px;
+			border: 3px solid #53bdd0;
+			border-radius: 5px;
 			transition: left 200ms ease-out;
 		}
 
@@ -188,6 +191,40 @@ ul {
 	.intro__text {
 		margin-bottom: 28px;
 	}
+
+.attributes {
+	margin: 0 0 1em;
+	font-size: 18px;
+}
+
+.tabs {
+    margin:  0; /* [1] */
+    padding: 0; /* [1] */
+    list-style: none; /* [1] */
+    display: table; /* [2] */
+    table-layout: fixed; /* [3] */
+    width: 100%; /* [4] */
+    text-align: center;
+}
+
+    .tabs__item {
+        display: table-cell; /* [2] */
+    }
+
+        .tabs__link {
+            display: block;
+        }
+
+.list-inline {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+}
+
+    .list-inline > li {
+        display: inline-block;
+        margin-right: 5px;
+    }
 
 .btn {
 	display: inline-block;

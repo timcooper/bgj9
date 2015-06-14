@@ -19,9 +19,9 @@ var MainControls = React.createClass({
 		return (
 	        <div className="game__actions">
 	          <nav className="main-actions">
-	            <ul>
-	              <li><a className="btn is-active" href="#" onClick={this.changePane}>Submersible</a></li>{/*
-	              */}<li><a className="btn" href="#" onClick={this.changePane}>Drone</a></li>
+	            <ul className="tabs">
+	              <li className="tabs__item"><a className="btn is-active tabs__link" href="#" onClick={this.changePane}>Submersible</a></li>{/*
+	              */}<li><a className="btn tabs__link" href="#" onClick={this.changePane}>Drone</a></li>
 	            </ul>
 	          </nav>
 	          <ActionPane type="sub" data={this.props.sub} time={this.props.time} docked={this.props.drone.docked} droneDead={this.props.drone.dead} />
