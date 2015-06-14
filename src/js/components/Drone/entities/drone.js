@@ -125,13 +125,13 @@ AppDispatcher.register(function(payload) {
 			droneData = drone.getData();
 
 			charged = droneData.attributes.maxCharge - droneData.attributes.charge;
-			duration = Math.ceil(charged/10);
+			duration = Math.ceil(charged);
 
 			droneData.attributes.charge = droneData.attributes.maxCharge;
 
 			time.tick(duration);
 
-			message.create("Charged "+charged+"% in "+duration+" hours");
+			message.create("Charged for "+duration+" hours");
 
 			break;
 		case "drone-repair":
