@@ -1,7 +1,8 @@
 var SaveStore = require("../../../stores/SaveStore"),
 	assign = require("react/lib/Object.assign"),
 	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
-	message = require("../entities/message");
+	message = require("../entities/message"),
+	Sub = require("../entities/sub");
 
 //var CHANGE_EVENT = 'change';
 
@@ -30,23 +31,49 @@ var drone = assign({}, SaveStore.prototype, {
 		this.sprite.anchor.setTo(0.5, 0.5);
 
 		return this;
-	},
-
-	dock: function(channel, message) {
-		console.log('DOCKED', message);
 	}
 
 });
 
 AppDispatcher.register(function(payload) {
-	if(payload.action == "drone-pickup") {
-		save = drone.getData();
-		if(save.inventory.materials + payload.data.value > save.attributes.maxInventory){
-			save.inventory.materials = save.attributes.maxInventory;
-		}else{
-			save.inventory.materials += payload.data.value;
-		}
-		drone.setData(save);
+	switch(payload.action) {
+		case "drone-pickup":
+			droneData = drone.getData();
+			if(droneData.inventory.materials + payload.data.value > droneData.attributes.maxInventory){
+				droneData.inventory.materials = droneData.attributes.maxInventory;
+			}else{
+				droneData.inventory.materials += payload.data.value;
+			}
+			drone.setData(droneData);
+			break;
+
+		case "drone-dock":
+			droneData = drone.getData();
+			subData = Sub.getData();
+
+			if(droneData.inventory.materials == 0) {
+				message.create("No materials to store in cargo");
+				break;
+			}
+
+			total = subData.inventory.materials + droneData.inventory.materials;
+			diff = subData.attributes.maxInventory - total;
+
+			if(diff > 0) {
+				subData.inventory.materials += droneData.inventory.materials;
+				storedMats = droneData.inventory.materials;
+				droneData.inventory.materials = 0;
+			}else{
+				subData.inventory.materials = subData.attributes.maxInventory;
+				storedMats = droneData.inventory.materials + diff;
+				droneData.inventory.materials = diff * -1;
+			}
+			message.create("Stored "+storedMats+" materials in cargo");
+
+			if(subData.inventory.materials == subData.attributes.maxInventory) {
+				message.create("Dirigible cargo full");
+			}
+			break;
 	}
 });
 
