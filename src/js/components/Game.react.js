@@ -51,7 +51,15 @@ var Start = React.createClass({
     });
     return (
       <div className={classes}>
-        <a href="#" className="btn" onClick={this.props.onStart}>Start Game</a>
+        <div className="intro">
+          <h1 className=="intro__title">Submersive Intent</h1>
+          <div className="intro__text">
+            <p>The Deep Sea Trading Co. has contracted you to explore a new cave system thought to be rich in valuable mineral deposits.</p>
+            <p>Unfortunately, you went and crashed your solo submersible in said cave and now need to scavenge around with your convenient minisub drone.</p>
+            <p>Explore the cave and gather enough materials to fully repair your sub before you run out of oxygen!</p>
+          </div>
+          <a href="#" className="btn" onClick={this.props.onStart}>Start Game</a>
+        </div>
       </div>
     );
   }
