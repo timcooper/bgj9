@@ -42,6 +42,19 @@ AppDispatcher.register(function(payload) {
 		case "drone-dock":
 			time.tick(.5);
 			break;
+		case "drone-charge":
+			droneData = drone.getData();
+
+			charged = droneData.attributes.maxCharge - droneData.attributes.charge;
+			duration = Math.ceil(charged/10);
+
+			droneData.attributes.charge = droneData.attributes.maxCharge;
+
+			time.tick(duration);
+
+			message.create("Charged "+charged+"% in "+duration+" hours");
+
+			break;
 		case "drone-repair":
 			droneData = drone.getData();
 			subData = sub.getData();
@@ -52,7 +65,7 @@ AppDispatcher.register(function(payload) {
 			}
 
 			if(subData.inventory.materials == 0) {
-				message.create("No materials in dirigible cargo to use for repairs");
+				message.create("No materials in sub cargo to use for repairs");
 				break;
 			}
 

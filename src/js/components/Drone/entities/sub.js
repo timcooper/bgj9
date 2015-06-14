@@ -32,7 +32,7 @@ AppDispatcher.register(function(payload) {
 			subData = sub.getData();
 
 			if(subData.inventory.materials == 0) {
-				message.create("No materials in dirigible cargo to use for repairs");
+				message.create("No materials in sub cargo to use for repairs");
 				break;
 			}
 

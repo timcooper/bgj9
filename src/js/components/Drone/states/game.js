@@ -26,15 +26,15 @@ game.create = function() {
 	this.game.camera.bounds = null;
 	this.game.camera.follow(this.player.sprite);
 
-	this.dirigible = require("../entities/sub.js");
-	this.dirigible.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
+	this.sub = require("../entities/sub.js");
+	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
 
 	this.keyboard = this.game.input.keyboard;
 };
 
 game.update = function() {
 	this.cave.update();
-	this.game.physics.arcade.overlap(this.player.sprite, this.dirigible.sprite, this.dockDrone, null, this);
+	this.game.physics.arcade.overlap(this.player.sprite, this.sub.sprite, this.dockDrone, null, this);
 
 	this.player.sprite.body.acceleration.set(0);
 

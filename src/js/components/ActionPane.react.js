@@ -31,6 +31,11 @@ var ActionPane = React.createClass({
 			action: "drone-repair"
 		});
 	},
+	chargeDrone: function() {
+		AppDispatcher.dispatch({
+			action: "drone-charge"
+		});
+	},
 	endGame: function(e) {
 		AppDispatcher.dispatch({
 			action: "sub-escape",
@@ -65,7 +70,7 @@ var ActionPane = React.createClass({
 	              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
 	              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
 	              <li><a id="launch" href="#" className="btn" onClick={this.deployDrone}>Deploy Drone</a>
-	                <p className="dock-help">Drone deployed, return to dirigible to dock</p></li>
+	                <p className="dock-help">Drone deployed, return to sub to dock</p></li>
 	              <li><a href="#" className="btn">Lights</a></li>
 	              <li><a href="#" className="btn" onClick={this.repairSub}>Repair</a></li>
 	              <li><a href="#" className={winClasses} onClick={this.endGame}>Escape</a></li>
@@ -80,6 +85,7 @@ var ActionPane = React.createClass({
 	              <li>Hull: {data.attributes.health}/{data.attributes.maxHealth}</li>
 	              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>
 	              <li><a href="#" className="btn" onClick={this.unloadDrone}>Unload</a></li>
+	              <li><a href="#" className="btn" onClick={this.chargeDrone}>Charge</a></li>
 	              <li><a href="#" className="btn" onClick={this.repairDrone}>Repair</a></li>
 	            </ul>
 	          </section>)
