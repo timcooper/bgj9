@@ -10,7 +10,7 @@ preloader.preload = function(onLoad) {
 	this.game.load.image("floor", "assets/img/floor.png");
 	this.game.load.image("wall", "assets/img/wall.png");
 	this.game.load.image("pickup", "assets/img/pickup.png");
-	this.game.load.image("win", "assets/img/win.png");
+	this.game.load.image("sub", "assets/img/sub.png");
 	this.game.load.image("droneBG", "assets/img/drone-bg.png");
 
 	this.game.load.audio("mainLoop", ["assets/audio/exploration.mp3", "assets/audio/exploration.ogg"]);

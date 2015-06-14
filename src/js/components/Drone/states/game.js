@@ -16,6 +16,9 @@ game.create = function() {
 		this.cave.renderMap();
 	}
 
+	this.sub = require("../entities/sub.js");
+	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
+
 	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
 
@@ -25,9 +28,6 @@ game.create = function() {
 
 	this.game.camera.bounds = null;
 	this.game.camera.follow(this.player.sprite);
-
-	this.sub = require("../entities/sub.js");
-	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
 };
 
 game.update = function() {

@@ -21,8 +21,9 @@ var sub = assign({}, SaveStore.prototype, {
 
 	create: function(x, y, game) {
 		this.game = game;
-		this.sprite = this.game.add.sprite(x, y, "win");
+		this.sprite = this.game.add.sprite(x, y, "sub");
 		this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+		this.sprite.body.setSize(24, 10, 0, 4);
 	},
 
 });
