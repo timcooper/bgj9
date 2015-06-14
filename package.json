@@ -14,22 +14,14 @@
   "author": "timcooper",
   "browser": {
     "lodash": "./node_modules/lodash/index.js",
-    "PubSub": "./node_modules/pubsub-js/src/pubsub.js",
-    "Phaser": "./node_modules/phaser/build/phaser.js",
     "React": "./node_modules/react/dist/react-with-addons.js"
   },
   "browserify-shim": {
     "lodash": {
       "exports": "_"
     },
-    "PubSub": {
-      "exports": "PubSub"
-    },
     "react": {
       "exports": "React"
-    },
-    "Phaser": {
-      "exports": "phaser"
     }
   },
   "devDependencies": {
@@ -37,17 +29,17 @@
     "browserify-shim": "^3.8.8",
     "envify": "^3.4.0",
     "gulp": "^3.9.0",
+    "gulp-ignore": "^1.2.1",
     "gulp-uglify": "^1.2.0",
     "jquery": "^2.1.4",
     "lodash": "^3.9.3",
     "phaser": "^2.3.0",
     "reactify": "^1.1.1",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0"
   },
   "dependencies": {
-    "keymaster": "^1.6.2",
-    "pubsub-js": "^1.5.2",
     "react": "^0.13.3"
   }
 }
