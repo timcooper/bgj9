@@ -22,7 +22,7 @@ docked.deploy = function(payload) {
 		music.stop();
 		game.sound.play("deployDrone");
 		game.state.start("game");
-		message.create("Drone Deployed!");
+		message.create("Drone deployed");
 	}
 };
 

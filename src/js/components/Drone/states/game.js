@@ -68,10 +68,10 @@ game.update = function() {
 };
 
 game.dockDrone = function() {
+	message.create("Drone docked");
 	AppDispatcher.dispatch({
 		action: "drone-dock"
 	});
-	message.create("Drone Docked!");
 	this.music.stop();
 	this.game.state.start("docked");
 };
