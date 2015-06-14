@@ -27,6 +27,11 @@ var SaveStore = assign({}, EventEmitter.prototype, {
     return _save;
   },
 
+  setDead: function(dead) {
+    _save['dead'] = dead;
+    this.emit(CHANGE_EVENT);
+  },
+
   setDrone: function(data) {
     _save['drone'] = data;
     this.emit(CHANGE_EVENT);

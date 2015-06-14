@@ -35,7 +35,8 @@ module.exports = {
 	    "time": {
 	    	"remains": 24,
 	    	"total": 24
-	    }
+	    },
+	    "dead": false
     }));
   }
 };

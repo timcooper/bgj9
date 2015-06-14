@@ -1,28 +1,41 @@
 var UI = require('./UI.react');
 var React = require('React');
 var AppDispatcher = require("../dispatcher/AppDispatcher");
-//var key = require('keymaster');
+var SaveStore = require("../stores/SaveStore");
 
 var Game = React.createClass({
 
 	getInitialState: function() {
-		return {loaded: false, started: false};
+		return {loaded: false, started: false, dead: false };
 	},
 
+  componentDidMount: function() {
+    SaveStore.addChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState({dead: SaveStore.get("dead")});
+  },
+
 	onLoad: function() {
-		this.setState({loaded: true, started: false});
+		this.setState({loaded: true, started: false, dead: false});
 	},
 
   onStart: function() {
-    this.setState({loaded: true, started: true})
+    this.setState({loaded: true, started: true, dead: false})
+  },
+
+  onRestart: function() {
+    window.location.reload();
   },
 
   render: function() {
     return (
     	<div className="container">
-    		<UI started={this.state.started} onLoad={this.onLoad} />
+    		<UI started={this.state.started} dead={this.state.dead} onLoad={this.onLoad} />
         <Start started={this.state.started} loaded={this.state.loaded} onStart={this.onStart} />
-        <Preloader loaded={this.state.loaded} />
+        <Preloader loaded={this.state.loaded} dead={this.state.dead} />
+        <End onRestart={this.onRestart} />
     	</div>
     );
   }
@@ -59,6 +72,28 @@ var Start = React.createClass({
             <p>Explore the cave and gather enough materials to fully repair your sub before you run out of oxygen!</p>
           </div>
           <a href="#" className="btn" onClick={this.props.onStart}>Start Game</a>
+        </div>
+      </div>
+    );
+  }
+});
+
+var End = React.createClass({
+  render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'game': true,
+      'game--start': true,
+      'is-disabled': !SaveStore.get("dead")
+    });
+    return (
+      <div className={classes}>
+        <div className="intro">
+          <h1 className="intro__title">You Died</h1>
+          <div className="intro__text">
+            <p>You ran out of oxygen and suffocated. It was not nice.</p>
+          </div>
+          <a href="#" className="btn" onClick={this.props.onRestart}>Restart</a>
         </div>
       </div>
     );

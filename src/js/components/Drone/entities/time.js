@@ -16,6 +16,9 @@ var time = assign({}, SaveStore.prototype, {
 
 	tick: function(amount) {
 		timeData = this.getData();
+		if(timeData.remains - amount < 0) {
+			SaveStore.setDead(true);
+		}
 		timeData.remains -= amount;
 		this.setData(timeData);
 	},
