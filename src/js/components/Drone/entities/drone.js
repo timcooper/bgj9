@@ -46,7 +46,8 @@ var drone = assign({}, SaveStore.prototype, {
 		if(!Phaser.Point.equals(this.sprite.body.acceleration,new Phaser.Point(0,0))) {
 			if(this.charge - 0.005 < 0) {
 				this.data.attributes.charge = 0;
-				this.game.state.start("dead");
+				this.data.dead = true;
+				//this.game.state.start("dead");
 			}
 			this.charge -= 0.005;
 
@@ -86,12 +87,28 @@ var drone = assign({}, SaveStore.prototype, {
 				this.sprite.body.acceleration.y = 25;
 			}
 		}
+	},
+	hit: function(amount) {
+		droneData = this.getData();
+
+		if(droneData.attributes.health - amount < 0) {
+			this.data.attributes.health = 0;
+			this.data.dead = true;
+			//this.game.state.start("dead");
+		}
+
+		droneData.attributes.health -= amount;
+
+		this.setData(droneData);
 	}
 
 });
 
 AppDispatcher.register(function(payload) {
 	switch(payload.action) {
+		case "drone-crash":
+			drone.hit(parseInt(payload.data.player.body.speed/20, 10));
+			break;
 		case "drone-dead":
 			droneData = drone.getData();
 			droneData.dead = true;

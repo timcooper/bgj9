@@ -33,6 +33,13 @@ game.create = function() {
 game.update = function() {
 	this.cave.update();
 	this.player.update();
+
+	playerData = this.player.getData();
+	if(playerData.dead) {
+		this.music.stop();
+		this.game.state.start("dead");
+	}
+
 	this.game.physics.arcade.overlap(this.player.sprite, this.sub.sprite, this.dockDrone, null, this);
 };
 

@@ -36,10 +36,16 @@ cave.prototype.update = function() {
 		};
 	};
 
-	this.game.physics.arcade.collide(this.wallTiles, this.player);
+	this.game.physics.arcade.collide(this.wallTiles, this.player, this.collide);
 	this.game.physics.arcade.overlap(this.pickups, this.player, this.pickup);
 };
 
+cave.prototype.collide = function(wall, player) {
+	AppDispatcher.dispatch({
+		action: "drone-crash",
+		data: {wall: wall, player: player}
+	});
+}
 cave.prototype.pickup = function(obj1, obj2) {
 	AppDispatcher.dispatch({
 		action: "drone-pickup",
