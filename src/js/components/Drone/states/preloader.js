@@ -28,9 +28,11 @@ preloader.preload = function(onLoad) {
 	//this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
 };
 
-preloader.create = function() {
-	this.game.onLoad();
-	this.game.state.start("docked");
-};
+preloader.update = function() {
+	if(this.cache.isSoundDecoded('mainLoop')) {
+		this.game.onLoad();
+		this.game.state.start("docked");
+	}
+}
 
 module.exports = preloader;

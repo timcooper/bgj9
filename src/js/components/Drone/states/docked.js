@@ -8,7 +8,7 @@ var docked = {},
 docked.create = function() {
 	game = this.game;
 	music = game.add.audio("mainLoop");
-	music.play();
+	music.fadeIn(4000);
 
 	var nameLabel = game.add.text(80, 80, "DRONE IN CARGO", {
 			font: "20px Courier",
