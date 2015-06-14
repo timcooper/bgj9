@@ -7,6 +7,7 @@ module.exports = {
 	    	"attributes": {
 	    		"health":    30,
 	    		"maxHealth": 100,
+	    		"repairRate": 1,
 	    		"maxInventory": 100
 	    	},
 	    	"inventory": {
@@ -15,11 +16,12 @@ module.exports = {
     	},
     	"drone": {
 	    	"attributes": {
-	    		"health":    100,
-	    		"maxHealth": 100,
+	    		"health":    20,
+	    		"maxHealth": 20,
 	    		"charge":    100,
 	    		"maxCharge": 100,
-	    		"maxInventory": 20
+	    		"maxInventory": 20,
+	    		"repairRate": 2
 	    	},
 	    	"inventory": {
 	    		"materials": 0

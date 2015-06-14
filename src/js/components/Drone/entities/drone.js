@@ -2,7 +2,8 @@ var SaveStore = require("../../../stores/SaveStore"),
 	assign = require("react/lib/Object.assign"),
 	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
 	message = require("../entities/message"),
-	sub = require("../entities/sub");
+	sub = require("../entities/sub"),
+	time = require("../entities/time");
 
 //var CHANGE_EVENT = 'change';
 
@@ -37,9 +38,18 @@ var drone = assign({}, SaveStore.prototype, {
 
 AppDispatcher.register(function(payload) {
 	switch(payload.action) {
+		case "drone-deploy":
+		case "drone-dock":
+			time.tick(.5);
+			break;
 		case "drone-repair":
 			droneData = drone.getData();
 			subData = sub.getData();
+
+			if(droneData.attributes.health == droneData.attributes.maxHealth) {
+				message.create("Drone does not need repairs");
+				break;
+			}
 
 			if(subData.inventory.materials == 0) {
 				message.create("No materials in dirigible cargo to use for repairs");
@@ -63,6 +73,8 @@ AppDispatcher.register(function(payload) {
 				subData.inventory.materials -= usedMats;
 				message.create("Drone fully repaired for "+usedMats+" materials");
 			}
+
+			time.tick(1);
 
 			break;
 
@@ -107,6 +119,9 @@ AppDispatcher.register(function(payload) {
 			if(subData.inventory.materials == subData.attributes.maxInventory) {
 				message.create("Dirigible cargo full");
 			}
+
+			time.tick(2);
+
 			break;
 	}
 });

@@ -37,6 +37,11 @@ var SaveStore = assign({}, EventEmitter.prototype, {
     this.emit(CHANGE_EVENT);
   },
 
+  setTime: function(data) {
+    _save['time'] = data;
+    this.emit(CHANGE_EVENT);
+  },
+
   addMessage: function(data) {
     _save['messages'].unshift(data);
     this.emit(CHANGE_EVENT);

@@ -1,7 +1,8 @@
 var SaveStore = require("../../../stores/SaveStore"),
 	assign = require("react/lib/Object.assign"),
 	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
-	message = require("../entities/message");
+	message = require("../entities/message"),
+	time = require("../entities/time");
 
 //var CHANGE_EVENT = 'change';
 
@@ -52,6 +53,8 @@ AppDispatcher.register(function(payload) {
 				subData.inventory.materials -= usedMats;
 				message.create("Dirigible fully repaired for "+usedMats+" materials");
 			}
+
+			time.tick(1);
 
 			break;
 		case "sub-escape":
