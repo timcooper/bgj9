@@ -114,7 +114,7 @@ var reactifyTask = function (options) {
 
 gulp.task("react", function() {
 	reactifyTask({
-		development: false,
+		development: true,
 		src: './src/js/app.js',
 		dest: './build'
 	});
