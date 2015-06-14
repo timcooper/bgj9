@@ -64,12 +64,6 @@ var ActionPane = React.createClass({
 	          	'btn': true,
 	          	'is-disabled': this.data.attributes.health == this.data.attributes.maxHealth || this.data.inventory.materials == 0
 	          });
-			  help = '';
-			  if(this.props.droneDead) {
-			  	help = <p className="dock-help">Drone lost</p>
-			  }else if(!this.props.docked) {
-			  	help = <p className="dock-help">Drone deployed, return to sub to dock</p>
-			  }
 	          return (<section className={classes}>
 	            <dl className="attributes">
 	              <dt>O<sub>2</sub> Remaining</dt><dd>{this.props.time.remains} hours</dd>
@@ -77,8 +71,7 @@ var ActionPane = React.createClass({
 	              <dt>Materials</dt><dd>{this.data.inventory.materials}/{this.data.attributes.maxInventory}</dd>
               	</dl>
               	<ul className="list-inline">
-	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a>
-	                {help}</li>
+	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a></li>
 	              <li><a href="#" className={repairClasses} onClick={this.repairSub}>Repair</a></li>
 	              <li><a href="#" className={escapeClasses} onClick={this.endGame}>Escape</a></li>
 	            </ul>
