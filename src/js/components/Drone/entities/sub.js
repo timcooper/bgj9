@@ -46,12 +46,12 @@ AppDispatcher.register(function(payload) {
 				subData.attributes.health += maxRepair;
 				usedMats = subData.inventory.materials;
 				subData.inventory.materials = 0;
-				message.create("Dirigible repaired by "+maxRepair+" for "+usedMats+" materials");
+				message.create("Submersible repaired by "+maxRepair+" for "+usedMats+" materials");
 			}else{
 				subData.attributes.health = subData.attributes.maxHealth;
 				usedMats = Math.ceil(neededRepair / subData.attributes.repairRate);
 				subData.inventory.materials -= usedMats;
-				message.create("Dirigible fully repaired for "+usedMats+" materials");
+				message.create("Submersible fully repaired for "+usedMats+" materials");
 			}
 
 			time.tick(1);
@@ -59,7 +59,7 @@ AppDispatcher.register(function(payload) {
 			break;
 		case "sub-escape":
 			if(payload.disabled) {
-				message.create("Dirigible hull not fully repaired");
+				message.create("Submersible hull not fully repaired");
 				break;
 			}
 

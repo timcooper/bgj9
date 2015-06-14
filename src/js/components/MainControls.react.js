@@ -7,7 +7,7 @@ var MainControls = React.createClass({
 
 		$elem.addClass("is-active");
 		$elem.parent().siblings().children().removeClass("is-active");
-		if(e.target.innerHTML == "Dirigible") {
+		if(e.target.innerHTML == "Submersible") {
 			$('.game__action-panel--sub').addClass("is-active");
 			$('.game__action-panel--drone').removeClass("is-active");
 		}else{
@@ -20,7 +20,7 @@ var MainControls = React.createClass({
 	        <div className="game__actions">
 	          <nav className="main-actions">
 	            <ul>
-	              <li><a className="btn is-active" href="#" onClick={this.changePane}>Dirigible</a></li>{/*
+	              <li><a className="btn is-active" href="#" onClick={this.changePane}>Submersible</a></li>{/*
 	              */}<li><a className="btn" href="#" onClick={this.changePane}>Drone</a></li>
 	            </ul>
 	          </nav>

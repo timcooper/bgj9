@@ -64,7 +64,7 @@ var ActionPane = React.createClass({
 			  	'is-disabled': !winCondition
 			  });
 	          return (<section className={classes}>
-	            <h2>Dirigible</h2>
+	            <h2>Submersible</h2>
 	            <ul>
 	              <li>Oxygen Remaining: {this.props.time.remains} hours</li>
 	              <li>Materials: {data.inventory.materials}/{data.attributes.maxInventory}</li>

@@ -111,7 +111,7 @@ AppDispatcher.register(function(payload) {
 			}
 
 			if(subData.inventory.materials == subData.attributes.maxInventory) {
-				message.create("Dirigible cargo full");
+				message.create("Submersible cargo full");
 				break
 			}
 
@@ -130,7 +130,7 @@ AppDispatcher.register(function(payload) {
 			message.create("Stored "+storedMats+" materials in cargo");
 
 			if(subData.inventory.materials == subData.attributes.maxInventory) {
-				message.create("Dirigible cargo full");
+				message.create("Submersible cargo full");
 			}
 
 			time.tick(2);
