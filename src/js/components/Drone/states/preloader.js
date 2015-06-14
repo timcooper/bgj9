@@ -1,6 +1,6 @@
 var preloader = {};
 
-preloader.preload = function() {
+preloader.preload = function(onLoad) {
 	var loadingLabel = this.game.add.text(80, 150, "loading...", {
 		font: "30px Courier",
 		fill: "#ffffff"
@@ -21,6 +21,7 @@ preloader.preload = function() {
 };
 
 preloader.create = function() {
+	this.game.onLoad();
 	this.game.state.start("docked");
 };
 

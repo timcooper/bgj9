@@ -59,7 +59,7 @@ var UI = React.createClass({
       <div className="game">
         <UpdateList messages={messages} />
         <MainControls drone={drone} sub={sub} time={time} />
-        <RadarView type="drone" />
+        <RadarView type="drone" onLoad={this.props.onLoad} />
         <RadarView type="sub" />
       </div>
     );

@@ -5,7 +5,7 @@ var RadarView = React.createClass({
 
 	componentDidMount: function() {
 		if(this.props.type == "drone")
-	  		new droneInit(320, 256, Phaser.AUTO, 'game')
+	  		new droneInit(this.props.onLoad);
 	},
 
 	render: function() {
@@ -15,6 +15,7 @@ var RadarView = React.createClass({
 		  'game__radar--sub': this.props.type == 'sub',
 		  'game__radar--drone': this.props.type == 'drone'
 		});
+
 		return (
 			<div id={this.props.type=='drone'?'game':''} className={classes} />
 		);

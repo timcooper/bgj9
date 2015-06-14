@@ -16,6 +16,11 @@ ul {
 	list-style: none;
 }
 
+.container {
+	height: 587px;
+	overflow: hidden;
+}
+
 .game {
 	position: relative;
 	width: 1200px;
