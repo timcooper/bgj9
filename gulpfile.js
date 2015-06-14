@@ -3,8 +3,7 @@ var gulp = require("gulp"),
 	browserify = require("browserify"),
 	source = require("vinyl-source-stream"),
 	buffer = require("vinyl-buffer"),
-	reactify = require("reactify"),
-  gutil = require( 'gulp-util' );
+	reactify = require("reactify");
 
 var dependencies = [
 	'react',
@@ -26,7 +25,7 @@ var reactifyTask = function (options) {
     appBundler.bundle()
       .pipe(source('./bundle.js'))
       .pipe(buffer())
-      .pipe(uglify().on('error', gutil.log))
+      .pipe(uglify())
       .pipe(gulp.dest(options.dest));
   };
 
