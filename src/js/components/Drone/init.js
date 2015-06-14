@@ -5,7 +5,8 @@ var droneInit = function(callback) {
 	  boot: require('./states/boot.js'),
 	  preloader: require('./states/preloader.js'),
 	  docked: require('./states/docked.js'),
-	  game: require('./states/game.js')
+	  game: require('./states/game.js'),
+	  dead: require('./states/dead.js')
 	};
 
 	_.each(states, function(state, key) {

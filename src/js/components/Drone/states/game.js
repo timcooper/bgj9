@@ -28,52 +28,22 @@ game.create = function() {
 
 	this.sub = require("../entities/sub.js");
 	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
-
-	this.keyboard = this.game.input.keyboard;
 };
 
 game.update = function() {
 	this.cave.update();
+	this.player.update();
 	this.game.physics.arcade.overlap(this.player.sprite, this.sub.sprite, this.dockDrone, null, this);
-
-	this.player.sprite.body.acceleration.set(0);
-
-	if(this.keyboard.isDown(Phaser.Keyboard.A)) {
-		if(this.player.sprite.body.velocity.x > 0) {
-			this.player.sprite.body.acceleration.x = -50;
-		}else{
-			this.player.sprite.body.acceleration.x = -25;
-		}
-	} else if(this.keyboard.isDown(Phaser.Keyboard.D)) {
-		if(this.player.sprite.body.velocity.x < 0) {
-			this.player.sprite.body.acceleration.x = 50;
-		}else{
-			this.player.sprite.body.acceleration.x = 25;
-		}
-	}
-
-	if(this.keyboard.isDown(Phaser.Keyboard.W)) {
-		if(this.player.sprite.body.velocity.y > 0) {
-			this.player.sprite.body.acceleration.y = -50;
-		}else{
-			this.player.sprite.body.acceleration.y = -25;
-		}
-	} else if(this.keyboard.isDown(Phaser.Keyboard.S)) {
-		if(this.player.sprite.body.velocity.y < 0) {
-			this.player.sprite.body.acceleration.y = 50;
-		}else{
-			this.player.sprite.body.acceleration.y = 25;
-		}
-	}
 };
 
 game.dockDrone = function() {
+	this.music.stop();
+	this.game.sound.play("dockDrone");
+	this.game.state.start("docked");
 	message.create("Drone docked");
 	AppDispatcher.dispatch({
 		action: "drone-dock"
 	});
-	this.music.stop();
-	this.game.state.start("docked");
 };
 
 module.exports = game;

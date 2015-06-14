@@ -24,7 +24,7 @@ var MainControls = React.createClass({
 	              */}<li><a className="btn" href="#" onClick={this.changePane}>Drone</a></li>
 	            </ul>
 	          </nav>
-	          <ActionPane type="sub" data={this.props.sub} time={this.props.time} />
+	          <ActionPane type="sub" data={this.props.sub} time={this.props.time} docked={this.props.drone.docked} droneDead={this.props.drone.dead} />
 	          <ActionPane type="drone" data={this.props.drone} />
 	        </div>
         );

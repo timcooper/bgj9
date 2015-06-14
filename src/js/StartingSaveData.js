@@ -15,6 +15,8 @@ module.exports = {
 	    	}
     	},
     	"drone": {
+    		"docked": true,
+    		"dead": false,
 	    	"attributes": {
 	    		"health":    20,
 	    		"maxHealth": 20,

@@ -22,8 +22,9 @@ var drone = assign({}, SaveStore.prototype, {
     },
 
 	create: function(x, y, game) {
-		this.sprite = game.add.sprite(x, y, "player");
-		game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
+		this.game = game;
+		this.sprite = this.game.add.sprite(x, y, "player");
+		this.game.physics.enable(this.sprite, Phaser.Physics.ARCADE);
 		this.sprite.body.setSize(10, 10, 0, 0);
 		this.sprite.body.maxVelocity.set(50);
 		this.sprite.body.drag.set(25);
@@ -31,15 +32,75 @@ var drone = assign({}, SaveStore.prototype, {
 
 		this.sprite.anchor.setTo(0.5, 0.5);
 
+		this.keyboard = this.game.input.keyboard;
+
+		this.data = this.getData();
+
+		this.prevCharge = this.data.attributes.charge;
+		this.charge = this.prevCharge;
+
 		return this;
+	},
+
+	update: function() {
+		if(!Phaser.Point.equals(this.sprite.body.acceleration,new Phaser.Point(0,0))) {
+			if(this.charge - 0.005 < 0) {
+				this.data.attributes.charge = 0;
+				this.game.state.start("dead");
+			}
+			this.charge -= 0.005;
+
+			if(parseInt(this.charge, 10) < parseInt(this.prevCharge, 10)) {
+				this.data.attributes.charge = parseInt(this.charge, 10);
+				this.prevCharge = parseInt(this.charge, 10);
+				this.setData(this.data);
+			}
+		}
+
+		this.sprite.body.acceleration.set(0);
+
+		if(this.keyboard.isDown(Phaser.Keyboard.A)) {
+			if(this.sprite.body.velocity.x > 0) {
+				this.sprite.body.acceleration.x = -50;
+			}else{
+				this.sprite.body.acceleration.x = -25;
+			}
+		} else if(this.keyboard.isDown(Phaser.Keyboard.D)) {
+			if(this.sprite.body.velocity.x < 0) {
+				this.sprite.body.acceleration.x = 50;
+			}else{
+				this.sprite.body.acceleration.x = 25;
+			}
+		}
+
+		if(this.keyboard.isDown(Phaser.Keyboard.W)) {
+			if(this.sprite.body.velocity.y > 0) {
+				this.sprite.body.acceleration.y = -50;
+			}else{
+				this.sprite.body.acceleration.y = -25;
+			}
+		} else if(this.keyboard.isDown(Phaser.Keyboard.S)) {
+			if(this.sprite.body.velocity.y < 0) {
+				this.sprite.body.acceleration.y = 50;
+			}else{
+				this.sprite.body.acceleration.y = 25;
+			}
+		}
 	}
 
 });
 
 AppDispatcher.register(function(payload) {
 	switch(payload.action) {
+		case "drone-dead":
+			droneData = drone.getData();
+			droneData.dead = true;
+			drone.setData(droneData);
+			break;
 		case "drone-deploy":
 		case "drone-dock":
+			droneData = drone.getData();
+			droneData.docked = payload.action == "drone-dock";
 			time.tick(.5);
 			break;
 		case "drone-charge":
@@ -138,34 +199,5 @@ AppDispatcher.register(function(payload) {
 			break;
 	}
 });
-
-
-/*drone.dispatchToken = AppDispatcher.register(function(payload) {
-  var action = payload.action;
-
-  switch(action.type) {
-
-    case "RECEIVE_SAVE":
-      console.log(action.save);
-      data = action.save;
-      drone.emitChange();
-      break;
-
-    default:
-      // do nothing
-  }
-
-});*/
-
-/*var drone = function(x, y, game) {
-	this.game   = game;
-	this.sprite = this.game.add.sprite(x, y, "player");
-	this.health = 100;
-	this.maxHealth = 100;
-	this.charge = 100;
-	this.maxCharge = 100;
-	this.inventory = {};
-	this.inventoryRoom = 10;
-};*/
 
 module.exports = drone;
