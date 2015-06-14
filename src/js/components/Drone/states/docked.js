@@ -8,7 +8,7 @@ var docked = {},
 docked.create = function() {
 	game = this.game;
 	music = game.add.audio("mainLoop");
-	music.fadeIn(4000);
+	music.fadeIn(4000, true);
 
 	var nameLabel = game.add.text(80, 80, "DRONE IN CARGO", {
 			font: "20px Courier",
@@ -19,7 +19,8 @@ docked.create = function() {
 };
 
 docked.update = function() {
-	if(!this.creaking.isPlaying && this.game.rnd.between(1, 100) == 50) {
+	var rand = this.game.rnd.between(1, 1000);
+	if(!this.creaking.isPlaying && rand == 50) {
 		this.creaking = this.game.sound.play("subCreak");
 	}
 }

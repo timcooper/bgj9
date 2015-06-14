@@ -4,7 +4,7 @@ var game = {},
 
 game.create = function() {
 	this.music = this.game.add.audio("tenseLoop");
-	this.music.play();
+	this.music.play("", 0, 1, true);
 
 	this.game.world.setBounds(0, 0, 960, 768);
 	this.game.renderer.renderSession.roundPixels = true;
