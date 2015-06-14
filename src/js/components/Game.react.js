@@ -50,7 +50,15 @@ var Preloader = React.createClass({
       'game--preload': true,
       'is-disabled': this.props.loaded
     });
-    return <div className={classes}>Loading...</div>;
+    return <div className={classes}>
+      <div className="intro">
+        <h1 className="intro__title">Submersive Intent</h1>
+        <div className="intro__text">
+          <p>Loading&hellip;</p>
+        </div>
+      </div>
+      <div className="spinner"></div>
+    </div>;
   }
 });
 
