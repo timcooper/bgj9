@@ -3,7 +3,7 @@ var gulp = require("gulp"),
 	browserify = require("browserify"),
 	source = require("vinyl-source-stream"),
 	buffer = require("vinyl-buffer"),
-	reactify = require("reactify");;
+	reactify = require("reactify");
 
 var dependencies = [
 	'react',
@@ -31,9 +31,9 @@ var reactifyTask = function (options) {
     var start = Date.now();
     console.log('Building APP bundle');
     appBundler.bundle()
-      .pipe(source('./app.js'))
+      .pipe(source('./bundle.js'))
       .pipe(buffer())
-      .pipe(uglify())
+      //.pipe(uglify())
       .pipe(gulp.dest(options.dest));
   };
 
@@ -116,14 +116,14 @@ var reactifyTask = function (options) {
 gulp.task("react", function() {
 	reactifyTask({
 		development: true,
-		src: './app/js/main.js',
+		src: './src/js/app.js',
 		dest: './build'
 	});
 })
 
 gulp.task("watch", function() {
 	gulp.watch("./js/**/*.js", ["js"]);
-	gulp.watch("./app/js/**/*.js", ["react"]);
+	gulp.watch("./src/js/**/*.js", ["react"]);
 });
 
 gulp.task("js", function() {
