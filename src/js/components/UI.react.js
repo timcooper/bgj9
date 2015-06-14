@@ -54,9 +54,14 @@ var UI = React.createClass({
     var messages = this.state.messages;
     var sub = this.state.sub;
     var time = this.state.time;
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'game': true,
+      'is-disabled': !this.props.started
+    });
 
     return (
-      <div className="game">
+      <div className={classes}>
         <UpdateList messages={messages} />
         <MainControls drone={drone} sub={sub} time={time} />
         <RadarView type="drone" onLoad={this.props.onLoad} />

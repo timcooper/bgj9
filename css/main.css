@@ -17,12 +17,17 @@ ul {
 }
 
 .container {
+	position: relative;
 	height: 587px;
 	overflow: hidden;
+	width: 1206px;
+	margin: 0 auto;
 }
 
 .game {
-	position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
 	width: 1200px;
 	height: 581px;
 	margin: 0 auto;
@@ -31,6 +36,10 @@ ul {
 	overflow: hidden;
 	z-index: 1;
 }
+
+	.game.is-disabled {
+		left: 1206px;
+	}
 
 	.game__radar {
 		width: 320px;
@@ -159,7 +168,3 @@ ul {
 		background-color: #242424;
 		cursor: default;
 	}
-
-.dock-help {
-	display: none;
-}

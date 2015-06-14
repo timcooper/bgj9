@@ -6,24 +6,23 @@ var AppDispatcher = require("../dispatcher/AppDispatcher");
 var Game = React.createClass({
 
 	getInitialState: function() {
-		return {loaded: false};
+		return {loaded: false, started: false};
 	},
 
 	onLoad: function() {
-		this.setState({loaded: true});
+		this.setState({loaded: true, started: false});
 	},
 
+  onStart: function() {
+    this.setState({loaded: true, started: true})
+  },
+
   render: function() {
-  	if(this.state.loaded) {
-  		preloader = '';
-  	}else{
-  		preloader = <Preloader />;
-  	}
-  	var test = this.state.loaded ? 'LOADED' : 'NOT LOADED';
     return (
     	<div className="container">
-    		{preloader}
-    		<UI onLoad={this.onLoad} />
+    		<UI started={this.state.started} onLoad={this.onLoad} />
+        <Start started={this.state.started} loaded={this.state.loaded} onStart={this.onStart} />
+        <Preloader loaded={this.state.loaded} />
     	</div>
     );
   }
@@ -32,7 +31,29 @@ var Game = React.createClass({
 
 var Preloader = React.createClass({
   render: function() {
-    return <div className="game game-preload">Loading...</div>;
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'game': true,
+      'game--preload': true,
+      'is-disabled': this.props.loaded
+    });
+    return <div className={classes}>Loading...</div>;
+  }
+});
+
+var Start = React.createClass({
+  render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'game': true,
+      'game--start': true,
+      'is-disabled': this.props.started || !this.props.loaded
+    });
+    return (
+      <div className={classes}>
+        <a href="#" className="btn" onClick={this.props.onStart}>Start Game</a>
+      </div>
+    );
   }
 });
 
