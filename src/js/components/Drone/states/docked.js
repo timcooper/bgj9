@@ -15,7 +15,14 @@ docked.create = function() {
 			fontWeight: "bold",
 			fill: "#53bdd0"
 		});
+	this.creaking = this.game.sound.play("subCreak");
 };
+
+docked.update = function() {
+	if(!this.creaking.isPlaying && this.game.rnd.between(1, 100) == 50) {
+		this.creaking = this.game.sound.play("subCreak");
+	}
+}
 
 docked.deploy = function(payload) {
 	if(payload.action == "drone-deploy") {

@@ -25,7 +25,7 @@ preloader.preload = function(onLoad) {
 	this.game.load.audio("crash", ["assets/audio/crash.mp3", "assets/audio/crash.ogg"]);
 	this.game.load.audio("pickup", ["assets/audio/pickup.mp3", "assets/audio/pickup.ogg"]);
 	this.game.load.audio("unload", ["assets/audio/unload.mp3", "assets/audio/unload.ogg"]);
-	//this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
+	this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
 };
 
 preloader.update = function() {
