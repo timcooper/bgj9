@@ -3,6 +3,7 @@ var game = {},
 	AppDispatcher = require("../../../dispatcher/AppDispatcher");
 
 game.create = function() {
+	this.filter = this.game.add.filter("Glow", this.game.width, this.game.height);
 	this.music = this.game.add.audio("tenseLoop");
 	this.music.play("", 0, 1, true);
 
@@ -18,12 +19,15 @@ game.create = function() {
 
 	this.sub = require("../entities/sub.js");
 	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
+	this.sub.filters = [ this.game.add.filter('Glow') ];
 
 	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
 
 	var player = require("../entities/drone.js");
 	this.player = player.create(this.cave.playerX, this.cave.playerY, this.game);
+	this.player.sprite.blendMode = PIXI.blendModes.ADD;
+	this.player.sprite.filters = [ this.game.add.filter('Glow') ];
 	this.cave.addPlayer(this.player.sprite);
 
 	this.game.camera.bounds = null;

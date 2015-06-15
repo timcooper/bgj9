@@ -147,6 +147,7 @@ cave.prototype.renderPickups = function() {
 		pickup.anchor.setTo(0.5, 0.5);
 		pickup.body.immovable = true;
 		pickup.value = i;
+		pickup.filters = [ this.game.add.filter('Glow') ];
 		this.pickups.push(pickup);
 	};
 }

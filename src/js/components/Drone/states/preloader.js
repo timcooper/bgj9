@@ -6,6 +6,8 @@ preloader.preload = function(onLoad) {
 		fill: "#ffffff"
 	});
 
+	this.game.load.script("filter", "assets/filter/glow.js");
+
 	this.game.load.image("player", "assets/img/player.png");
 	this.game.load.image("floor", "assets/img/floor.png");
 	this.game.load.image("wall", "assets/img/wall.png");
