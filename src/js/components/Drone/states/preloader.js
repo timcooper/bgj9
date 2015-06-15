@@ -6,8 +6,6 @@ preloader.preload = function(onLoad) {
 		fill: "#ffffff"
 	});
 
-	//this.game.load.script("filter", "assets/filter/glow.js");
-
 	this.game.load.image("player", "assets/img/player.png");
 	this.game.load.image("floor", "assets/img/floor.png");
 	this.game.load.image("wall", "assets/img/wall.png");
@@ -17,7 +15,6 @@ preloader.preload = function(onLoad) {
 
 	this.game.load.audio("mainLoop", ["assets/audio/exploration.mp3", "assets/audio/exploration.ogg"]);
 	this.game.load.audio("tenseLoop", ["assets/audio/tense.mp3", "assets/audio/tense.ogg"]);
-	//this.game.load.audio("megaTenseLoop", ["assets/audio/megatense.mp3", "assets/audio/megatense.ogg"]);
 
 	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3", "assets/audio/deployDrone.ogg"]);
 	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3", "assets/audio/dockDrone.ogg"]);

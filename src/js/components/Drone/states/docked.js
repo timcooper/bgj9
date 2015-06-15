@@ -4,7 +4,6 @@ var docked = {},
 	music,
 	game;
 
-
 docked.create = function() {
 	game = this.game;
 	music = game.add.audio("mainLoop");
