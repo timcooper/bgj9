@@ -33,8 +33,8 @@ module.exports = {
 	    	"Deploy your drone to scavenge for repair supplies"
 	    ],
 	    "time": {
-	    	"remains": 24,
-	    	"total": 24
+	    	"remains": 48,
+	    	"total": 48
 	    },
 	    "dead": false,
 	    "escaped": false
