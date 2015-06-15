@@ -248,3 +248,52 @@ ul {
 		background-color: #242424;
 		cursor: default;
 	}
+
+.touch-controls {
+	position: absolute;
+	top: 279px;
+	width: 536px;
+	padding: 5px;
+	border: 3px solid #53bdd0;
+	border-radius: 5px;
+	height: 265px;
+}
+
+	.touch__key {
+		position: absolute;
+		background: url('../assets/img/controls.png') no-repeat;
+	}
+
+		.touch__key--up {
+			width: 97px;
+			margin-left: -48px;
+			height: 49px;
+			left: 50%;
+			top: 20px;
+			background-position: 0 0;
+		}
+
+		.touch__key--down {
+			width: 97px;
+			margin-left: -48px;
+			height: 49px;
+			left: 50%;
+			bottom: 20px;
+			background-position: 0 -146px;
+		}
+
+		.touch__key--left {
+			width: 49px;
+			height: 97px;
+			left: 156px;
+			top: 87px;
+			background-position: 0 -49px;
+		}
+
+		.touch__key--right {
+			width: 49px;
+			height: 97px;
+			right: 156px;
+			top: 87px;
+			background-position: -49px -49px;
+		}

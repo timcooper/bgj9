@@ -33,7 +33,6 @@ var drone = assign({}, SaveStore.prototype, {
 		this.sprite.anchor.setTo(0.5, 0.5);
 
 		this.keyboard = this.game.input.keyboard;
-
 		this.data = this.getData();
 
 		this.prevCharge = this.data.attributes.charge;

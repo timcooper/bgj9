@@ -1,6 +1,14 @@
 var React = require("React"),
 	ActionPane = require("./ActionPane.react");
 
+function isTouch() {
+	var bool = false;
+    if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+      bool = true;
+    }
+    return bool;
+}
+
 var MainControls = React.createClass({
 	changePane: function(e) {
 		var $elem = $(e.target);
@@ -26,9 +34,36 @@ var MainControls = React.createClass({
 	          </nav>
 	          <ActionPane type="sub" data={this.props.sub} time={this.props.time} docked={this.props.drone.docked} droneDead={this.props.drone.dead} />
 	          <ActionPane type="drone" data={this.props.drone} />
+	          <TouchControls />
 	        </div>
         );
 	}
+});
+
+var TouchControls = React.createClass({
+  dispatchEvent: function(type, key) {
+  	var charCode = key.charCodeAt(0),
+  		e = new Event(type);
+
+    e.which = charCode;
+    e.keyCode = charCode;
+    e.charCode = charCode;
+
+    window.dispatchEvent(e);
+  },
+  render: function() {
+  	if(!isTouch()) {
+  		return <div></div>;
+  	}
+    return (
+      <div className="touch-controls">
+        <div className="touch__key touch__key--up" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'W')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'W')}></div>
+        <div className="touch__key touch__key--left" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'A')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'A')}></div>
+        <div className="touch__key touch__key--right" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'D')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'D')}></div>
+        <div className="touch__key touch__key--down" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'S')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'S')}></div>
+      </div>
+    );
+  }
 });
 
 module.exports = MainControls;
