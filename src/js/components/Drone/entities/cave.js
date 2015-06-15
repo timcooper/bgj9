@@ -4,14 +4,15 @@ var _ = require("lodash"),
 
 cave = function(game) {
 	this.game = game;
-	this.carved = false;
-	this.map = [];
 };
 
 cave.prototype.create = function() {
 	this.map = [];
 	this.wallTiles = [];
 	this.floorTiles = [];
+
+	this.lastWalls = 0;
+	this.carved = false;
 
 	this.pickups = [];
 
@@ -26,15 +27,22 @@ cave.prototype.create = function() {
 };
 
 cave.prototype.update = function() {
-	for (var i = 0; i < this.wallTiles.length; i++) {
-		for (var j = 0; j < this.floorTiles.length; j++) {
-			if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
-				tile = this.wallTiles.splice(i, 1);
-				tile[0].body = null;
-				tile[0].destroy();
-			}
+	if(!this.carved) {
+		for (var i = 0; i < this.wallTiles.length; i++) {
+			for (var j = 0; j < this.floorTiles.length; j++) {
+				if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
+					tile = this.wallTiles.splice(i, 1);
+					tile[0].body = null;
+					tile[0].destroy();
+				}
+			};
 		};
-	};
+		if(this.lastWalls == this.wallTiles.length) {
+			this.carved = true;
+		}else{
+			this.lastWalls = this.wallTiles.length;
+		}
+	}
 
 	this.game.physics.arcade.collide(this.wallTiles, this.player, this.collide);
 	this.game.physics.arcade.overlap(this.pickups, this.player, this.pickup);
@@ -118,6 +126,18 @@ cave.prototype.renderMap = function() {
 	}
 
 	this.renderPickups();
+
+	for (var i = 0; i < this.wallTiles.length; i++) {
+		for (var j = 0; j < this.floorTiles.length; j++) {
+			if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
+				tile = this.wallTiles.splice(i, 1);
+				tile[0].body = null;
+				tile[0].destroy();
+			}
+		};
+	};
+	this.carved = false;
+	this.lastWalls = this.wallTiles.length;
 };
 
 cave.prototype.renderPickups = function() {
