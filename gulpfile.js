@@ -3,7 +3,8 @@ var gulp = require("gulp"),
 	browserify = require("browserify"),
 	source = require("vinyl-source-stream"),
 	buffer = require("vinyl-buffer"),
-	reactify = require("reactify");
+	reactify = require("reactify"),
+  sourcemaps = require('gulp-sourcemaps');
 
 var dependencies = [
 	'react',
@@ -15,7 +16,7 @@ var reactifyTask = function (options) {
     var appBundler = browserify({
         entries: [options.src], // The entry file, normally "main.js"
         transform: [reactify], // Convert JSX style
-        debug: options.development, // Sourcemapping
+        debug: false, // Sourcemapping
         cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
     });
 
@@ -35,7 +36,7 @@ var reactifyTask = function (options) {
 
 gulp.task("react", function() {
 	reactifyTask({
-		development: true,
+		development: false,
 		src: './src/js/app.js',
 		dest: './build'
 	});
