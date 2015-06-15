@@ -13,18 +13,18 @@ preloader.preload = function(onLoad) {
 	this.game.load.image("sub", "assets/img/sub.png");
 	this.game.load.image("droneBG", "assets/img/drone-bg.png");
 
-	this.game.load.audio("mainLoop", ["assets/audio/exploration.mp3", "assets/audio/exploration.ogg"]);
-	this.game.load.audio("tenseLoop", ["assets/audio/tense.mp3", "assets/audio/tense.ogg"]);
+	this.game.load.audio("mainLoop", ["assets/audio/exploration.m4a", "assets/audio/exploration.ogg", "assets/audio/exploration.mp3"]);
+	this.game.load.audio("tenseLoop", ["assets/audio/tense.m4a", "assets/audio/tense.ogg", "assets/audio/tense.mp3"]);
 
-	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.mp3", "assets/audio/deployDrone.ogg"]);
-	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.mp3", "assets/audio/dockDrone.ogg"]);
+	this.game.load.audio("deployDrone", ["assets/audio/deployDrone.m4a", "assets/audio/deployDrone.ogg", "assets/audio/deployDrone.mp3"]);
+	this.game.load.audio("dockDrone", ["assets/audio/dockDrone.m4a", "assets/audio/dockDrone.ogg", "assets/audio/dockDrone.mp3"]);
 
-	this.game.load.audio("enemyAttack", ["assets/audio/enemyAttack.mp3", "assets/audio/enemyAttack.ogg"]);
-	this.game.load.audio("repair", ["assets/audio/repair.mp3", "assets/audio/repair.ogg"]);
-	this.game.load.audio("crash", ["assets/audio/crash.mp3", "assets/audio/crash.ogg"]);
-	this.game.load.audio("pickup", ["assets/audio/pickup.mp3", "assets/audio/pickup.ogg"]);
-	this.game.load.audio("unload", ["assets/audio/unload.mp3", "assets/audio/unload.ogg"]);
-	this.game.load.audio("subCreak", ["assets/audio/subCreak.mp3", "assets/audio/subCreak.ogg"]);
+	this.game.load.audio("enemyAttack", ["assets/audio/enemyAttack.m4a", "assets/audio/enemyAttack.ogg", "assets/audio/enemyAttack.mp3"]);
+	this.game.load.audio("repair", ["assets/audio/repair.m4a", "assets/audio/repair.ogg", "assets/audio/repair.mp3"]);
+	this.game.load.audio("crash", ["assets/audio/crash.m4a", "assets/audio/crash.ogg", "assets/audio/crash.mp3"]);
+	this.game.load.audio("pickup", ["assets/audio/pickup.m4a", "assets/audio/pickup.ogg", "assets/audio/pickup.mp3"]);
+	this.game.load.audio("unload", ["assets/audio/unload.m4a", "assets/audio/unload.ogg", "assets/audio/unload.mp3"]);
+	this.game.load.audio("subCreak", ["assets/audio/subCreak.m4a", "assets/audio/subCreak.ogg", "assets/audio/subCreak.mp3"]);
 };
 
 preloader.update = function() {
