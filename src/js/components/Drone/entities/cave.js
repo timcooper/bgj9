@@ -69,8 +69,8 @@ cave.prototype.collision = function(obj1, obj2) {
 };
 
 cave.prototype.makeMap = function() {
-	for (var y = 0; y < this.game.world.height; y+=16) {
-		for (var x = 0; x < this.game.world.width; x+=16) {
+	for (var y = 0; y < this.game.world.height; y+=32) {
+		for (var x = 0; x < this.game.world.width; x+=32) {
 			this.map.push(new this.Tile(x, y, true, true, "wall"));
 		};
 	};
@@ -86,18 +86,17 @@ cave.prototype.makeMap = function() {
 		y = _.random(1, ((this.game.world.height) / 32) - (h/32 + 1)) * 32;
 
 		this.newRoom = new this.Room(x, y, w, h);
-
 		this.createRoom(this.newRoom);
 
 		if(this.numRooms == 0) {
 			this.playerX = this.newRoom.centerCoords[0];
 			this.playerY = this.newRoom.centerCoords[1];
 		}else{
-			this.newX = this.newRoom.centerCoords[0] - 16;
-			this.newY = this.newRoom.centerCoords[1] - 16;
+			this.newX = this.newRoom.centerCoords[0] - 32;
+			this.newY = this.newRoom.centerCoords[1] - 32;
 
-			this.prevX = this.rooms[this.numRooms - 1].centerCoords[0] - 16;
-			this.prevY = this.rooms[this.numRooms - 1].centerCoords[1] - 16;
+			this.prevX = this.rooms[this.numRooms - 1].centerCoords[0] - 32;
+			this.prevY = this.rooms[this.numRooms - 1].centerCoords[1] - 32;
 
 			this.createHTunnel(this.prevX, this.newX, this.prevY);
 			this.createVTunnel(this.prevY, this.newY, this.newX);
@@ -111,7 +110,7 @@ cave.prototype.makeMap = function() {
 cave.prototype.renderMap = function() {
 	this.floorTiles = [];
 	this.wallTiles = [];
-	for(var i = 0; i < this.map.length; i++) {
+	for(var i = 0, mapLength = this.map.length; i < mapLength; i++) {
 		if(this.map[i].image == "floor") {
 			this.floorTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
 			this.game.physics.enable(this.floorTile, Phaser.Physics.ARCADE);
@@ -127,15 +126,6 @@ cave.prototype.renderMap = function() {
 
 	this.spawnPickups();
 
-	for (var i = 0; i < this.wallTiles.length; i++) {
-		for (var j = 0; j < this.floorTiles.length; j++) {
-			if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
-				tile = this.wallTiles.splice(i, 1);
-				tile[0].body = null;
-				tile[0].destroy();
-			}
-		};
-	};
 	this.carved = false;
 	this.lastWalls = this.wallTiles.length;
 };
