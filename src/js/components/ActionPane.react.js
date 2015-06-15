@@ -2,40 +2,46 @@ var React = require("React"),
 	AppDispatcher = require("../dispatcher/AppDispatcher");
 
 var ActionPane = React.createClass({
-	deployDrone: function(e) {
-		if($(e.target).hasClass("is-disabled")) return;
+	deployDrone: function(disabled, e) {
+		e.preventDefault();
+		if(disabled) return;
 		AppDispatcher.dispatch({
 			action: "drone-deploy"
 		});
 	},
-	unloadDrone: function(e) {
-		if($(e.target).hasClass("is-disabled")) return;
+	unloadDrone: function(disabled, e) {
+		e.preventDefault();
+		if(disabled) return;
 		AppDispatcher.dispatch({
 			action: "drone-unload"
 		});
 	},
-	repairDrone: function(e) {
-		if($(e.target).hasClass("is-disabled") || this.data.attributes.health == this.data.attributes.maxHealth) return;
+	repairDrone: function(disabled, e) {
+		e.preventDefault();
+		if(disabled || this.data.attributes.health == this.data.attributes.maxHealth) return;
 		AppDispatcher.dispatch({
 			action: "drone-repair"
 		});
 	},
-	chargeDrone: function(e) {
-		if($(e.target).hasClass("is-disabled")) return;
+	chargeDrone: function(disabled, e) {
+		e.preventDefault();
+		if(disabled) return;
 		AppDispatcher.dispatch({
 			action: "drone-charge"
 		});
 	},
-	repairSub: function(e) {
-		if($(e.target).hasClass("is-disabled")) return;
+	repairSub: function(disabled, e) {
+		e.preventDefault();
+		if(disabled) return;
 		AppDispatcher.dispatch({
 			action: "sub-repair"
 		});
 	},
-	endGame: function(e) {
+	endGame: function(disabled, e) {
+		e.preventDefault();
 		AppDispatcher.dispatch({
 			action: "sub-escape",
-			disabled: $(e.target).hasClass("is-disabled")
+			disabled: disabled
 		});
 	},
 	render: function() {
@@ -44,7 +50,7 @@ var ActionPane = React.createClass({
 		  'game__action-panel': true,
 		  'game__action-panel--sub': this.props.type == 'sub',
 		  'game__action-panel--drone': this.props.type == 'drone',
-		  'is-active': this.props.type == 'sub'
+		  'is-active': this.props.isActive
 		});
 
 		this.data = this.props.data;
@@ -71,9 +77,9 @@ var ActionPane = React.createClass({
 	              <dt>Materials</dt><dd>{this.data.inventory.materials}/{this.data.attributes.maxInventory}</dd>
               	</dl>
               	<ul className="list-inline">
-	              <li><a href="#" className={dockClasses} onClick={this.deployDrone}>Deploy Drone</a></li>
-	              <li><a href="#" className={repairClasses} onClick={this.repairSub}>Repair</a></li>
-	              <li><a href="#" className={escapeClasses} onClick={this.endGame}>Escape</a></li>
+	              <li><a href="#" className={dockClasses} onClick={this.deployDrone.bind(this, !this.props.docked || this.props.droneDead)}>Deploy Drone</a></li>
+	              <li><a href="#" className={repairClasses} onClick={this.repairSub.bind(this, this.data.attributes.health == this.data.attributes.maxHealth || this.data.inventory.materials == 0)}>Repair</a></li>
+	              <li><a href="#" className={escapeClasses} onClick={this.endGame.bind(this, !winCondition)}>Escape</a></li>
 	            </ul>
 	          </section>)
 	          break;
@@ -98,9 +104,9 @@ var ActionPane = React.createClass({
 		              <dt>Materials</dt><dd>{this.data.inventory.materials}/{this.data.attributes.maxInventory}</dd>
 	              	</dl>
               		<ul className="list-inline">
-		              <li><a href="#" className={unloadClasses} onClick={this.unloadDrone}>Unload</a></li>
-		              <li><a href="#" className={chargeClasses} onClick={this.chargeDrone}>Charge</a></li>
-		              <li><a href="#" className={repairClasses} onClick={this.repairDrone}>Repair</a></li>
+		              <li><a href="#" className={unloadClasses} onClick={this.unloadDrone.bind(this, !this.data.docked || this.data.inventory.materials == 0)}>Unload</a></li>
+		              <li><a href="#" className={chargeClasses} onClick={this.chargeDrone.bind(this, !this.data.docked || this.data.attributes.charge == this.data.attributes.maxCharge)}>Charge</a></li>
+		              <li><a href="#" className={repairClasses} onClick={this.repairDrone.bind(this, !this.data.docked || this.data.attributes.health == this.data.attributes.maxHealth)}>Repair</a></li>
 		            </ul>
 		          </section>)
 	          }else{

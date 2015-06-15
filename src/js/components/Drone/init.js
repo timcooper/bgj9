@@ -8,9 +8,9 @@ var droneInit = function(callback) {
 	  dead: require('./states/dead.js')
 	};
 
-	$.each(states, function(key, state) {
-	  game.state.add(key, state);
-	});
+	for(key in states) {
+		game.state.add(key, states[key]);
+	}
 
 	game.onLoad = callback;
 

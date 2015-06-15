@@ -21,7 +21,8 @@ var Game = React.createClass({
 		this.setState({loaded: true});
 	},
 
-  onStart: function() {
+  onStart: function(e) {
+    e.preventDefault();
     this.setState({started: true})
   },
 

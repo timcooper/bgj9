@@ -10,30 +10,37 @@ function isTouch() {
 }
 
 var MainControls = React.createClass({
-	changePane: function(e) {
-		var $elem = $(e.target);
-
-		$elem.addClass("is-active");
-		$elem.parent().siblings().children().removeClass("is-active");
-		if(e.target.innerHTML == "Submersible") {
-			$('.game__action-panel--sub').addClass("is-active");
-			$('.game__action-panel--drone').removeClass("is-active");
-		}else{
-			$('.game__action-panel--sub').removeClass("is-active");
-			$('.game__action-panel--drone').addClass("is-active");
-		}
+	getInitialState: function() {
+		return {
+			activePane: 1
+		};
+	},
+	changePane: function(id, e) {
+		e.preventDefault();
+		this.setState({activePane: id});
 	},
 	render: function() {
+		var cx = React.addons.classSet;
+		var subClasses = cx({
+		  'btn': true,
+		  'tabs__link': true,
+		  'is-active': this.state.activePane == 1
+		});
+		var droneClasses = cx({
+		  'btn': true,
+		  'tabs__link': true,
+		  'is-active': this.state.activePane == 2
+		});
 		return (
 	        <div className="game__actions">
 	          <nav className="main-actions">
 	            <ul className="tabs">
-	              <li className="tabs__item"><a className="btn is-active tabs__link" href="#" onClick={this.changePane}>Submersible</a></li>{/*
-	              */}<li><a className="btn tabs__link" href="#" onClick={this.changePane}>Drone</a></li>
+	              <li className="tabs__item"><a className={subClasses} href="#" onClick={this.changePane.bind(this, 1)}>Submersible</a></li>{/*
+	              */}<li><a className={droneClasses} href="#" onClick={this.changePane.bind(this, 2)}>Drone</a></li>
 	            </ul>
 	          </nav>
-	          <ActionPane type="sub" data={this.props.sub} time={this.props.time} docked={this.props.drone.docked} droneDead={this.props.drone.dead} />
-	          <ActionPane type="drone" data={this.props.drone} />
+	          <ActionPane type="sub" isActive={this.state.activePane == 1} data={this.props.sub} time={this.props.time} docked={this.props.drone.docked} droneDead={this.props.drone.dead} />
+	          <ActionPane type="drone" isActive={this.state.activePane == 2} data={this.props.drone} />
 	          <TouchControls />
 	        </div>
         );
