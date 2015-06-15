@@ -1,6 +1,5 @@
 var droneInit = function(callback) {
 	var game = new Phaser.Game(320, 256, Phaser.AUTO, 'game'),
-	_ = require("lodash"),
 	states = {
 	  boot: require('./states/boot.js'),
 	  preloader: require('./states/preloader.js'),
@@ -9,7 +8,7 @@ var droneInit = function(callback) {
 	  dead: require('./states/dead.js')
 	};
 
-	_.each(states, function(state, key) {
+	$.each(states, function(key, state) {
 	  game.state.add(key, state);
 	});
 
