@@ -38,7 +38,7 @@ gulp.task("react", function() {
 	reactifyTask({
 		development: false,
 		src: './src/js/app.js',
-		dest: './build'
+		dest: './js'
 	});
 })
 

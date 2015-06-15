@@ -125,7 +125,7 @@ AppDispatcher.register(function(payload) {
 
 			droneData.attributes.charge = droneData.attributes.maxCharge;
 
-			time.tick(duration/2);
+			time.tick(Math.ceil(duration/3));
 
 			message.create("Charged for "+duration/2+" hours");
 
