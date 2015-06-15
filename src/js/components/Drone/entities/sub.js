@@ -4,8 +4,6 @@ var SaveStore = require("../../../stores/SaveStore"),
 	message = require("../entities/message"),
 	time = require("../entities/time");
 
-//var CHANGE_EVENT = 'change';
-
 var sub = assign({}, SaveStore.prototype, {
 	getData: function() {
 		return SaveStore.get("sub");

@@ -1,6 +1,17 @@
-var _ = require("lodash"),
-	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
+var AppDispatcher = require("../../../dispatcher/AppDispatcher"),
 	message = require("../entities/message");
+
+function get2DArray(x, y) {
+    var map = [];
+    for (var i = 0; i < x; i++) {
+        map.push([]);
+        for (var j = 0; j < y; j++) {
+            map[i].push(0);
+        }
+    }
+
+    return map;
+}
 
 cave = function(game) {
 	this.game = game;
@@ -10,9 +21,6 @@ cave.prototype.create = function() {
 	this.map = [];
 	this.wallTiles = [];
 	this.floorTiles = [];
-
-	this.lastWalls = 0;
-	this.carved = false;
 
 	this.pickups = [];
 
@@ -27,23 +35,6 @@ cave.prototype.create = function() {
 };
 
 cave.prototype.update = function() {
-	if(!this.carved) {
-		for (var i = 0; i < this.wallTiles.length; i++) {
-			for (var j = 0; j < this.floorTiles.length; j++) {
-				if(this.game.physics.arcade.overlap(this.wallTiles[i], this.floorTiles[j])) {
-					tile = this.wallTiles.splice(i, 1);
-					tile[0].body = null;
-					tile[0].destroy();
-				}
-			};
-		};
-		if(this.lastWalls == this.wallTiles.length) {
-			this.carved = true;
-		}else{
-			this.lastWalls = this.wallTiles.length;
-		}
-	}
-
 	this.game.physics.arcade.collide(this.wallTiles, this.player, this.collide);
 	this.game.physics.arcade.overlap(this.pickups, this.player, this.pickup);
 };
@@ -64,14 +55,12 @@ cave.prototype.pickup = function(obj1, obj2) {
 	obj1.destroy();
 }
 
-cave.prototype.collision = function(obj1, obj2) {
-	console.log(obj1, obj2);
-};
-
 cave.prototype.makeMap = function() {
-	for (var y = 0; y < this.game.world.height; y+=32) {
-		for (var x = 0; x < this.game.world.width; x+=32) {
-			this.map.push(new this.Tile(x, y, true, true, "wall"));
+	this.map = get2DArray(this.game.world.width / 32, this.game.world.height / 32);
+
+	for (var x = 0; x < this.map.length; x++) {
+		for (var y = 0; y < this.map[x].length; y++) {
+			this.map[x][y] = new this.Tile(x, y, "wall");
 		};
 	};
 
@@ -79,102 +68,110 @@ cave.prototype.makeMap = function() {
 	this.numRooms = 0;
 
 	for(var r = 0; r < this.maxRooms; r++) {
-		w = _.random(this.roomMinSize, this.roomMaxSize) * 32;
-		h = _.random(this.roomMinSize, this.roomMaxSize) * 32;
-
-		x = _.random(1, ((this.game.world.width) / 32) - (w/32 + 1)) * 32;
-		y = _.random(1, ((this.game.world.height) / 32) - (h/32 + 1)) * 32;
+		var w = this.roomMinSize + this.game.rnd.between(0, this.roomMaxSize - this.roomMinSize),
+			h = this.roomMinSize + this.game.rnd.between(0, this.roomMaxSize - this.roomMinSize),
+			x = this.game.rnd.between(0, (this.game.world.width/32) - w - 2) + 1,
+			y = this.game.rnd.between(0, (this.game.world.height/32) - h - 2) + 1;
 
 		this.newRoom = new this.Room(x, y, w, h);
-		this.createRoom(this.newRoom);
 
-		if(this.numRooms == 0) {
-			this.playerX = this.newRoom.centerCoords[0];
-			this.playerY = this.newRoom.centerCoords[1];
-		}else{
-			this.newX = this.newRoom.centerCoords[0] - 32;
-			this.newY = this.newRoom.centerCoords[1] - 32;
-
-			this.prevX = this.rooms[this.numRooms - 1].centerCoords[0] - 32;
-			this.prevY = this.rooms[this.numRooms - 1].centerCoords[1] - 32;
-
-			this.createHTunnel(this.prevX, this.newX, this.prevY);
-			this.createVTunnel(this.prevY, this.newY, this.newX);
+		var failed = false;
+		for(i in this.rooms) {
+			if(this.newRoom.intersects(this.rooms[i])) {
+				failed = true;
+				break;
+			}
 		}
+		if(!failed) {
+			this.createRoom(this.newRoom);
 
-		this.rooms.push(this.newRoom);
-		this.numRooms += 1;
+			if(this.numRooms == 0) {
+				this.playerX = this.newRoom.centerPoint[0];
+				this.playerY = this.newRoom.centerPoint[1];
+			}else{
+				this.newX = this.newRoom.centerCoords[0];
+				this.newY = this.newRoom.centerCoords[1];
+
+				this.prevX = this.rooms[this.numRooms - 1].centerCoords[0];
+				this.prevY = this.rooms[this.numRooms - 1].centerCoords[1];
+				if(this.game.rnd.between(0, 1) == 1) {
+					this.createHTunnel(this.prevX, this.newX, this.prevY);
+					this.createVTunnel(this.prevY, this.newY, this.newX);
+				}else{
+					this.createVTunnel(this.prevY, this.newY, this.prevX);
+					this.createHTunnel(this.prevX, this.newX, this.newY);
+				}
+			}
+
+			this.rooms.push(this.newRoom);
+			this.numRooms++;
+		}
 	}
 };
 
 cave.prototype.renderMap = function() {
 	this.floorTiles = [];
 	this.wallTiles = [];
-	for(var i = 0, mapLength = this.map.length; i < mapLength; i++) {
-		if(this.map[i].image == "floor") {
-			this.floorTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
-			this.game.physics.enable(this.floorTile, Phaser.Physics.ARCADE);
-			this.floorTile.body.immovable = true;
-			this.floorTiles.push(this.floorTile);
-		} else if(this.map[i].image == "wall") {
-			this.wallTile = this.game.add.sprite(this.map[i].x, this.map[i].y, this.map[i].image);
-			this.game.physics.enable(this.wallTile, Phaser.Physics.ARCADE);
-			this.wallTile.body.immovable = true;
-			this.wallTiles.push(this.wallTile);
+	for(var x = 0, xLength = this.map.length; x < xLength; x++) {
+		for(var y = 0, yLength = this.map[x].length; y < yLength; y++) {
+			if(this.map[x][y].image == "floor") {
+				this.floorTile = this.game.add.sprite(this.map[x][y].x, this.map[x][y].y, this.map[x][y].image);
+				this.game.physics.enable(this.floorTile, Phaser.Physics.ARCADE);
+				this.floorTile.body.immovable = true;
+				this.floorTiles.push(this.floorTile);
+			} else if(this.map[x][y].image == "wall") {
+				this.wallTile = this.game.add.sprite(this.map[x][y].x, this.map[x][y].y, this.map[x][y].image);
+				this.game.physics.enable(this.wallTile, Phaser.Physics.ARCADE);
+				this.wallTile.body.immovable = true;
+				this.wallTiles.push(this.wallTile);
+			}
 		}
 	}
 
 	this.spawnPickups();
-
-	this.carved = false;
-	this.lastWalls = this.wallTiles.length;
 };
 
 cave.prototype.spawnPickups = function() {
 	for(var i = 1; i < this.rooms.length; i++) {
-		var pickup = this.game.add.sprite(this.rooms[i].centerCoords[0], this.rooms[i].centerCoords[1], "pickup");
+		var pickup = this.game.add.sprite(this.rooms[i].centerPoint[0], this.rooms[i].centerPoint[1], "pickup");
 		this.game.physics.enable(pickup, Phaser.Physics.ARCADE);
 		pickup.anchor.setTo(0.5, 0.5);
 		pickup.body.immovable = true;
 		var distance = this.game.physics.arcade.distanceToXY(pickup, this.playerX, this.playerY);
 		val = distance / 100;
 		pickup.value = val < 1 ? 1 : parseInt(val);
-		//pickup.filters = [ this.game.add.filter('Glow') ];
 		this.pickups.push(pickup);
 	};
 }
 
 cave.prototype.createRoom = function(room) {
-	for (var x = room.x1; x < room.x2; x+=32) {
-		for (var y = room.y1; y < room.y2; y+=32) {
-			this.map.push(new this.Tile(x, y, false, false, "floor"));
+	for (var x = room.x1; x < room.x2; x++) {
+		for (var y = room.y1; y < room.y2; y++) {
+			this.map[x][y] = new this.Tile(x, y, "floor");
 		};
 	};
 };
 
 cave.prototype.createHTunnel = function(x1, x2, y) {
 	this.min = Math.min(x1, x2);
-	this.max = Math.max(x1, x2);
-	for (var x = this.min; x < this.max + 32; x+=32) {
-		this.map.push(new this.Tile(x, y, false, false, "floor"));
+	this.max = Math.max(x1, x2) + 1;
+	for (var x = this.min; x < this.max; x++) {
+		this.map[x][y] = new this.Tile(x, y, "floor");
 	};
 };
 
 cave.prototype.createVTunnel = function(y1, y2, x) {
 	this.min = Math.min(y1, y2);
-	this.max = Math.max(y1, y2);
-	for (var y = this.min; y < this.max + 32; y+=32) {
-		this.map.push(new this.Tile(x, y, false, false, "floor"));
+	this.max = Math.max(y1, y2) + 1;
+	for (var y = this.min; y < this.max; y++) {
+		this.map[x][y] = new this.Tile(x, y, "floor");
 	};
 };
 
-cave.prototype.Tile = function(x, y, moveBlock, sightBlock, image) {
-	this.x = x;
-	this.y = y;
-	this.moveBlock = moveBlock;
-	this.sightBlock = sightBlock;
+cave.prototype.Tile = function(x, y, image) {
+	this.x = x*32;
+	this.y = y*32;
 	this.image = image;
-	this.object;
 };
 
 cave.prototype.Room = function(x, y, w, h) {
@@ -183,12 +180,26 @@ cave.prototype.Room = function(x, y, w, h) {
 	this.x2 = x + w;
 	this.y2 = y + h;
 
-	this.centerCoords = [];
-	centerX = (this.x1 + this.x2) / 2;
-	centerY = (this.y1 + this.y2) / 2;
+	this.w = w;
+	this.h = h;
 
-	this.centerCoords.push(centerX);
-	this.centerCoords.push(centerY);
+	var centerX = (this.x1 + this.x2) / 2,
+		centerY = (this.y1 + this.y2) / 2;
+
+	this.centerCoords = [
+		Math.floor(centerX),
+		Math.floor(centerY)
+	];
+
+	this.centerPoint = [
+		centerX*32,
+		centerY*32
+	];
+
+	this.intersects = function(otherRoom) {
+		return (this.x1 <= otherRoom.x2 && this.x2 >= otherRoom.x1 &&
+			this.y1 <= otherRoom.y2 && this.y2 >= otherRoom.y1);
+	};
 };
 
 cave.prototype.addPlayer = function(player) {

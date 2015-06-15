@@ -3,8 +3,6 @@ var SaveStore = require("../../../stores/SaveStore"),
 	AppDispatcher = require("../../../dispatcher/AppDispatcher"),
 	message = require("../entities/message");
 
-//var CHANGE_EVENT = 'change';
-
 var time = assign({}, SaveStore.prototype, {
 	getData: function() {
 		return SaveStore.get("time");

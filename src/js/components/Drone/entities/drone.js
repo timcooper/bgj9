@@ -5,8 +5,6 @@ var SaveStore = require("../../../stores/SaveStore"),
 	sub = require("../entities/sub"),
 	time = require("../entities/time");
 
-//var CHANGE_EVENT = 'change';
-
 var drone = assign({}, SaveStore.prototype, {
 
 	getData: function() {
@@ -94,7 +92,6 @@ var drone = assign({}, SaveStore.prototype, {
 		if(droneData.attributes.health - amount < 0) {
 			this.data.attributes.health = 0;
 			this.data.dead = true;
-			//this.game.state.start("dead");
 		}
 
 		droneData.attributes.health -= amount;
