@@ -1,0 +1,301 @@
+* {
+	/*box-sizing: border-box;*/
+}
+
+body {
+	background: #090909;
+	color: #53bdd0;
+	font-family: Courier, monospace;
+	font-weight: bold;
+	font-size: 14px;
+}
+
+ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.container {
+	position: relative;
+	height: 587px;
+	overflow: hidden;
+	width: 1206px;
+	margin: 3em auto;
+}
+
+.spinner {
+    border:3px solid #53bdd0;
+    border-radius:30px;
+    height:30px;
+    left:50%;
+    margin:-15px 0 0 -15px;
+    opacity:0;
+    position:absolute;
+    top:50%;
+    width:30px;
+
+    animation: pulsate 1s ease-out;
+    animation-iteration-count:infinite;
+}
+
+@keyframes pulsate {
+    0% {
+      transform:scale(.1);
+      opacity: 0.0;
+    }
+    50% {
+      opacity:1;
+    }
+    100% {
+      transform:scale(1.2);
+      opacity:0;
+    }
+}
+
+.game {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1200px;
+	height: 581px;
+	margin: 0 auto;
+	border: 3px solid #53bdd0;
+	border-radius: 10px;
+	overflow: hidden;
+	z-index: 1;
+}
+
+	.game.is-disabled {
+		left: 1206px;
+	}
+
+	.game__radar {
+		width: 320px;
+		height: 256px;
+		padding: 10px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+		overflow: hidden;
+		background: url('../assets/img/drone-bg.png?v1') 13px 13px no-repeat;
+	}
+
+		.game__radar--sub {
+			position: absolute;
+			bottom: 5px;
+			right: 5px;
+		}
+
+		.game__radar--drone {
+			position: absolute;
+			bottom: 294px;
+			right: 5px;
+		}
+
+	.game__update-list {
+		margin: 0;
+		position: absolute;
+		left: 5px;
+		bottom: 5px;
+		width: 250px;
+		height: 555px;
+		padding: 5px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+	}
+
+		.game__update-list ul {
+			height: 555px;
+			padding-right: 5px;
+			overflow-x: hidden;
+			overflow-y: scroll;
+		}
+
+		.game__update-list ul::-webkit-scrollbar {
+		      width: 5px;
+		}
+
+		.game__update-list ul::-webkit-scrollbar-track {
+		      background-color: #090909;
+		} /* the new scrollbar will have a flat appearance with the set background color */
+
+		.game__update-list ul::-webkit-scrollbar-thumb {
+		      background-color: #53bdd0;
+		} /* this will style the thumb, ignoring the track */
+
+		.game__update-list ul::-webkit-scrollbar-button {
+			display: none;
+		      background-color: #53bdd0;
+		} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+
+		.game__update-list ul::-webkit-scrollbar-corner {
+		      background-color: black;
+		} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+		.game__update-item {
+			border: 3px solid #53bdd0;
+			border-radius: 5px;
+			padding: 5px;
+			margin-bottom: 5px;
+		}
+
+	.game__actions {
+		position: absolute;
+		left: 276px;
+		top: 5px;
+		padding: 5px;
+		width: 552px;
+		height: 555px;
+		border: 3px solid #53bdd0;
+		border-radius: 5px;
+		overflow: hidden;
+	}
+
+		.main-actions li {
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		.game__action-panel {
+			position: absolute;
+			top: 63px;
+			width: 536px;
+			padding: 5px;
+			border: 3px solid #53bdd0;
+			border-radius: 5px;
+			transition: left 200ms ease-out;
+		}
+
+			.game__action-panel.is-active {
+				left: 5px;
+			}
+
+			.game__action-panel--sub {
+				left: -552px;
+			}
+
+			.game__action-panel--drone {
+				left: 562px;
+			}
+
+.intro {
+	text-align:center;
+	margin: 10em auto;
+	width: 50%;
+}
+
+	.intro__title {
+		margin-bottom: 28px;
+	}
+
+	.intro__text {
+		margin-bottom: 28px;
+	}
+
+.attributes {
+	margin: 0 0 1em;
+	font-size: 18px;
+}
+
+.tabs {
+    margin:  0; /* [1] */
+    padding: 0; /* [1] */
+    list-style: none; /* [1] */
+    display: table; /* [2] */
+    table-layout: fixed; /* [3] */
+    width: 100%; /* [4] */
+    text-align: center;
+}
+
+    .tabs__item {
+        display: table-cell; /* [2] */
+    }
+
+        .tabs__link {
+            display: block;
+        }
+
+.list-inline {
+    margin:  0;
+    padding: 0;
+    list-style: none;
+}
+
+    .list-inline > li {
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+.btn {
+	display: inline-block;
+	padding: 10px;
+	border: 3px solid #53bdd0;
+	border-radius: 5px;
+	overflow: hidden;
+	color: #53bdd0;
+	text-decoration: none;
+	font-size: 20px;
+}
+
+	.btn:hover, .btn.is-active {
+		color: #090909;
+		background: #53bdd0;
+	}
+
+	.btn.is-disabled {
+		border-color: #4A4A4A;
+		color: #525252;
+		background-color: #242424;
+		cursor: default;
+	}
+
+.touch-controls {
+	position: absolute;
+	top: 279px;
+	width: 536px;
+	padding: 5px;
+	border: 3px solid #53bdd0;
+	border-radius: 5px;
+	height: 265px;
+	-moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+	.touch__key {
+		position: absolute;
+		background: url('../assets/img/controls.png?v1') no-repeat;
+	}
+
+		.touch__key--up {
+			width: 97px;
+			margin-left: -48px;
+			height: 49px;
+			left: 50%;
+			top: 20px;
+			background-position: 0 0;
+		}
+
+		.touch__key--down {
+			width: 97px;
+			margin-left: -48px;
+			height: 49px;
+			left: 50%;
+			bottom: 20px;
+			background-position: 0 -146px;
+		}
+
+		.touch__key--left {
+			width: 49px;
+			height: 97px;
+			left: 156px;
+			top: 87px;
+			background-position: 0 -49px;
+		}
+
+		.touch__key--right {
+			width: 49px;
+			height: 97px;
+			right: 156px;
+			top: 87px;
+			background-position: -49px -49px;
+		}

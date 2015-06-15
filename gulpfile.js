@@ -4,7 +4,7 @@ var gulp = require("gulp"),
 	source = require("vinyl-source-stream"),
 	buffer = require("vinyl-buffer"),
 	reactify = require("reactify"),
-  sourcemaps = require('gulp-sourcemaps');
+  minify = require('gulp-minify-css');
 
 var dependencies = [
 	'react',
@@ -40,6 +40,12 @@ gulp.task("react", function() {
 		src: './src/js/app.js',
 		dest: './build'
 	});
+})
+
+gulp.task("css", function() {
+  gulp.src("./src/css/main.css")
+    .pipe(minify())
+    .pipe(gulp.dest('./css'));
 })
 
 gulp.task("watch", function() {
