@@ -149,7 +149,7 @@ cave.prototype.spawnPickups = function() {
 		var distance = this.game.physics.arcade.distanceToXY(pickup, this.playerX, this.playerY);
 		val = distance / 100;
 		pickup.value = val < 1 ? 1 : parseInt(val);
-		pickup.filters = [ this.game.add.filter('Glow') ];
+		//pickup.filters = [ this.game.add.filter('Glow') ];
 		this.pickups.push(pickup);
 	};
 }

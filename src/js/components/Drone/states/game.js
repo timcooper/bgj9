@@ -39,7 +39,7 @@ var game = {},
     ];
 
 game.create = function() {
-	this.filter = this.game.add.filter("Glow", this.game.width, this.game.height);
+	//this.filter = this.game.add.filter("Glow", this.game.width, this.game.height);
 	this.music = this.game.add.audio("tenseLoop");
 	this.music.play("", 0, 1, true);
 
@@ -55,16 +55,16 @@ game.create = function() {
 
 	this.sub = require("../entities/sub.js");
 	this.sub.create(this.cave.playerX-40, this.cave.playerY-40, this.game);
-	this.sub.filters = [ this.game.add.filter('Glow') ];
+	//this.sub.filters = [ this.game.add.filter('Glow') ];
 
-	filter = new Phaser.Filter(this.game, null, fragmentSrc);
+	/*filter = new Phaser.Filter(this.game, null, fragmentSrc);
     filter.setResolution(320, 256);
     sprite = this.game.add.sprite();
 	sprite.fixedToCamera = true;
     sprite.width = 320;
     sprite.height = 256;
     sprite.filters = [ filter ];
-    sprite.blendMode = PIXI.blendModes.SCREEN;
+    sprite.blendMode = PIXI.blendModes.SCREEN;*/
 
 	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
@@ -72,7 +72,7 @@ game.create = function() {
 	var player = require("../entities/drone.js");
 	this.player = player.create(this.cave.playerX, this.cave.playerY, this.game);
 	this.player.sprite.blendMode = PIXI.blendModes.ADD;
-	this.player.sprite.filters = [ this.game.add.filter('Glow') ];
+	//this.player.sprite.filters = [ this.game.add.filter('Glow') ];
 	this.cave.addPlayer(this.player.sprite);
 
 	this.game.camera.bounds = null;
