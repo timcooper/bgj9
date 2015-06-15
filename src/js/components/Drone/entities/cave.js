@@ -125,7 +125,7 @@ cave.prototype.renderMap = function() {
 		}
 	}
 
-	this.renderPickups();
+	this.spawnPickups();
 
 	for (var i = 0; i < this.wallTiles.length; i++) {
 		for (var j = 0; j < this.floorTiles.length; j++) {
@@ -140,13 +140,15 @@ cave.prototype.renderMap = function() {
 	this.lastWalls = this.wallTiles.length;
 };
 
-cave.prototype.renderPickups = function() {
+cave.prototype.spawnPickups = function() {
 	for(var i = 1; i < this.rooms.length; i++) {
 		var pickup = this.game.add.sprite(this.rooms[i].centerCoords[0], this.rooms[i].centerCoords[1], "pickup");
 		this.game.physics.enable(pickup, Phaser.Physics.ARCADE);
 		pickup.anchor.setTo(0.5, 0.5);
 		pickup.body.immovable = true;
-		pickup.value = i;
+		var distance = this.game.physics.arcade.distanceToXY(pickup, this.playerX, this.playerY);
+		val = distance / 100;
+		pickup.value = val < 1 ? 1 : parseInt(val);
 		pickup.filters = [ this.game.add.filter('Glow') ];
 		this.pickups.push(pickup);
 	};

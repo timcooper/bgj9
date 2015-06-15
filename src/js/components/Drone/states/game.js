@@ -65,7 +65,6 @@ game.create = function() {
     sprite.height = 256;
     sprite.filters = [ filter ];
     sprite.blendMode = PIXI.blendModes.SCREEN;
-    console.log("new2");
 
 	var bg = this.game.add.tileSprite(0, 0, 320, 256, 'droneBG');
 	bg.fixedToCamera = true;
