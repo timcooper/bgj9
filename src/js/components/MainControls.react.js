@@ -57,10 +57,10 @@ var TouchControls = React.createClass({
   	}
     return (
       <div className="touch-controls">
-        <div className="touch__key touch__key--up" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'W')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'W')}></div>
-        <div className="touch__key touch__key--left" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'A')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'A')}></div>
-        <div className="touch__key touch__key--right" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'D')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'D')}></div>
-        <div className="touch__key touch__key--down" onMouseUp={this.dispatchEvent.bind(this, 'keyup', 'S')} onMouseDown={this.dispatchEvent.bind(this, 'keydown', 'S')}></div>
+        <div className="touch__key touch__key--up" onTouchEnd={this.dispatchEvent.bind(this, 'keyup', 'W')} onTouchStart={this.dispatchEvent.bind(this, 'keydown', 'W')}></div>
+        <div className="touch__key touch__key--left" onTouchEnd={this.dispatchEvent.bind(this, 'keyup', 'A')} onTouchStart={this.dispatchEvent.bind(this, 'keydown', 'A')}></div>
+        <div className="touch__key touch__key--right" onTouchEnd={this.dispatchEvent.bind(this, 'keyup', 'D')} onTouchStart={this.dispatchEvent.bind(this, 'keydown', 'D')}></div>
+        <div className="touch__key touch__key--down" onTouchEnd={this.dispatchEvent.bind(this, 'keyup', 'S')} onTouchStart={this.dispatchEvent.bind(this, 'keydown', 'S')}></div>
       </div>
     );
   }

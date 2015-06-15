@@ -7,4 +7,5 @@ StartingSaveData.init();
 
 SaveUtils.getSave();
 
+React.initializeTouchEvents(true)
 React.render(<Game/>, document.body);
