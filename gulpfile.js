@@ -4,7 +4,8 @@ var gulp = require("gulp"),
 	source = require("vinyl-source-stream"),
 	buffer = require("vinyl-buffer"),
 	reactify = require("reactify"),
-  minify = require('gulp-minify-css');
+  minify = require('gulp-minify-css'),
+  del = require('del');
 
 var dependencies = [
 	'react',
@@ -23,33 +24,46 @@ var reactifyTask = function (options) {
   appBundler.external(options.development ? dependencies : []);
 
   var rebundle = function () {
-    appBundler.bundle()
+    return appBundler.bundle()
       .pipe(source('./bundle.js'))
       .pipe(buffer())
       .pipe(uglify())
       .pipe(gulp.dest(options.dest));
   };
 
-  rebundle();
+  return rebundle();
 
 };
 
-gulp.task("react", function() {
-	reactifyTask({
+gulp.task("clean:js", function(cb) {
+  del([
+    "./js/*.js"
+  ], cb)
+});
+
+gulp.task("clean:css", function(cb) {
+  del([
+    "./css/*"
+  ], cb)
+});
+
+gulp.task("js", ["clean:js"], function() {
+	return reactifyTask({
 		development: false,
 		src: './src/js/app.js',
 		dest: './js'
 	});
 })
 
-gulp.task("css", function() {
+gulp.task("css", ["clean:css"], function() {
   gulp.src("./src/css/main.css")
     .pipe(minify())
     .pipe(gulp.dest('./css'));
 })
 
 gulp.task("watch", function() {
-	gulp.watch("./src/js/**/*.js", ["react"]);
+	gulp.watch("./src/js/**/*.js", ["js"]);
+  gulp.watch("./src/css/**/*.css", ["css"]);
 });
 
-gulp.task("default", ["watch", "react"]);
+gulp.task("default", ["js", "css", "watch"]);
